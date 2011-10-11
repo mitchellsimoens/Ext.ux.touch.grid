@@ -25,7 +25,7 @@ Ext.define('Ext.ux.touch.grid.View', {
     initialize: function() {
         var me = this;
 
-        header = me.header = me.insert(0, {
+        me.header = me.insert(0, {
             xtype  : 'container',
             cls    : 'x-grid-hd-row',
             docked : 'top',
