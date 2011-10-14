@@ -1,13 +1,13 @@
 Ext.define('Ext.ux.touch.grid.feature.Sorter', {
+    extend   : 'Ext.ux.touch.grid.feature.Abstract',
+    requires : 'Ext.ux.touch.grid.feature.Abstract',
+
     clearSorters : false,
 
-    init: function(grid, cfg) {
+    init: function(grid) {
         var me     = this,
-            store  = grid.getStore(),
             header = grid.header,
             el     = header.element;
-
-        me.grid = grid;
 
         el.on({
             scope : me,
@@ -31,14 +31,12 @@ Ext.define('Ext.ux.touch.grid.feature.Sorter', {
 
         el.un({
             scope : me,
-
             tap   : me.handleHeaderTap
         });
 
         grid.un({
             scope : me,
-
-            sort : me.updateHeaderIcons
+            sort  : me.updateHeaderIcons
         });
     },
 

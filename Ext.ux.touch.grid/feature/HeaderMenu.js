@@ -1,5 +1,8 @@
 Ext.define('Ext.ux.touch.grid.feature.HeaderMenu', {
-    init: function(grid, cfg) {
+    extend   : 'Ext.ux.touch.grid.feature.Abstract',
+    requires : 'Ext.ux.touch.grid.feature.Abstract',
+
+    init: function(grid) {
         var me     = this,
             header = grid.header,
             el     = header.element;
