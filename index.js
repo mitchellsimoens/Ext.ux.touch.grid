@@ -8,6 +8,7 @@ Ext.Loader.setConfig({
 Ext.require([
     'Ext.ux.touch.grid.View',
     'Ext.ux.touch.grid.feature.Feature',
+    'Ext.ux.touch.grid.feature.Filter',
     'Ext.ux.touch.grid.feature.HeaderMenu',
     'Ext.ux.touch.grid.feature.Sorter'
 ]);
@@ -67,6 +68,7 @@ Ext.setup({
                 constructorFn : [],
                 initializeFn  : [
                     'Ext.ux.touch.grid.feature.Sorter',
+                    'Ext.ux.touch.grid.feature.Filter',
                     {
                         ftype    : 'Ext.ux.touch.grid.feature.HeaderMenu',
                         submitFn : function() {

@@ -2,18 +2,12 @@ Ext.define('Ext.ux.touch.grid.feature.HeaderMenu', {
     extend   : 'Ext.ux.touch.grid.feature.Abstract',
     requires : 'Ext.ux.touch.grid.feature.Abstract',
 
-    init: function(grid) {
-        var me     = this,
-            header = grid.header,
-            el     = header.element;
-
-        me.grid = grid;
-
-        el.on({
-            scope   : me,
-
-            taphold : me.handleHeaderTapHold
-        });
+    config : {
+        events : {
+            headerEl : {
+                taphold : 'handleTapHold'
+            }
+        }
     },
 
     onDestroy: function() {
@@ -31,8 +25,8 @@ Ext.define('Ext.ux.touch.grid.feature.HeaderMenu', {
         });
     },
 
-    handleHeaderTapHold: function(e, t) {
-        e.stopEvent();
+    handleTapHold: function(e, t) {
+        e.isStopped = true;
 
         var me        = this,
             grid      = me.grid,

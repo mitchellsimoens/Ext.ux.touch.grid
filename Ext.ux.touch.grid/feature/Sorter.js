@@ -4,23 +4,16 @@ Ext.define('Ext.ux.touch.grid.feature.Sorter', {
 
     clearSorters : false,
 
-    init: function(grid) {
-        var me     = this,
-            header = grid.header,
-            el     = header.element;
-
-        el.on({
-            scope : me,
-
-            tap   : me.handleHeaderTap
-        });
-
-        grid.on({
-            scope : me,
-
-            beforesort : me.isSortable,
-            sort       : me.updateHeaderIcons
-        });
+    config : {
+        events : {
+            grid    : {
+                beforesort : 'isSortable',
+                sort       : 'updateHeaderIcons'
+            },
+            headerEl : {
+                tap        : 'handleHeaderTap'
+            }
+        }
     },
 
     onDestroy: function() {
@@ -45,6 +38,8 @@ Ext.define('Ext.ux.touch.grid.feature.Sorter', {
     },
 
     handleHeaderTap: function(e, t) {
+        e.isStopped = true;
+
         var me        = this,
             grid      = me.grid,
             colModel  = grid.colModel,
