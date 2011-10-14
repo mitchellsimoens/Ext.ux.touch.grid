@@ -9,7 +9,7 @@ Ext.require([
     'Ext.ux.touch.grid.View',
     'Ext.ux.touch.grid.feature.Feature',
     'Ext.ux.touch.grid.feature.HeaderMenu',
-    'Ext.ux.touch.grid.feature.HeaderSort'
+    'Ext.ux.touch.grid.feature.Sorter'
 ]);
 
 Ext.setup({
@@ -66,7 +66,7 @@ Ext.setup({
             features   : {
                 constructorFn : [],
                 initializeFn  : [
-                    'Ext.ux.touch.grid.feature.HeaderSort',
+                    'Ext.ux.touch.grid.feature.Sorter',
                     {
                         ftype    : 'Ext.ux.touch.grid.feature.HeaderMenu',
                         submitFn : function() {

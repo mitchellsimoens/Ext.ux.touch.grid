@@ -1,4 +1,4 @@
-Ext.define('Ext.ux.touch.grid.feature.HeaderSort', {
+Ext.define('Ext.ux.touch.grid.feature.Sorter', {
     clearSorters : false,
 
     init: function(grid, cfg) {

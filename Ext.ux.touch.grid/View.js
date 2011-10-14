@@ -50,7 +50,7 @@ Ext.define('Ext.ux.touch.grid.View', {
             cNum       = colModel.length,
             basePrefix = Ext.baseCSSPrefix,
             renderers  = {},
-            column, css, styles, attributes, width, renderer, rendererName, rendererStart, rendererEnd, innerText;
+            column, css, styles, attributes, width, renderer, rendererName, innerText;
 
         for (; c < cNum; c++) {
             column        = colModel[c];
@@ -60,8 +60,6 @@ Ext.define('Ext.ux.touch.grid.View', {
             width         = column.width;
             renderer      = column.renderer || this._defaultRenderer;
             rendererName  = column.dataIndex + '_renderer';
-            rendererStart = '';
-            rendererEnd   = '';
 
             if (header) {
                 css.push(basePrefix + 'grid-cell-hd');
