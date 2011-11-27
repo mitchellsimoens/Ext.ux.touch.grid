@@ -60,64 +60,78 @@ Ext.setup({
 			]
 		});
 
-        Ext.create('Ext.ux.touch.grid.View', {
+        Ext.create('Ext.Container', {
             fullscreen : true,
-            store      : store,
+            scrollable : 'horizontal',
+            layout     : {
+                type : 'hbox'
+            },
 
-            features   : [
-                {
-                    ftype    : 'Ext.ux.touch.grid.feature.HeaderMenu',
-                    launchFn : 'initialize'
-                },
-                {
-                    ftype    : 'Ext.ux.touch.grid.feature.Sorter',
-                    launchFn : 'contructor'
-                }
-            ],
-            columns   : [
-                {
-                    header    : 'Company',
-                    dataIndex : 'company',
-                    style     : 'padding-left: 1em;',
-                    width     : '40%',
-                    sortable  : false,
-                    filter    : { type : 'string' }
-                },
-                {
-                    header    : 'Price',
-                    dataIndex : 'price',
-                    style     : 'text-align: center;',
-                    width     : '15%',
-                    filter    : { type : 'numeric' }
-                },
-                {
-                    header    : 'Change',
-                    dataIndex : 'change',
-                    cls       : 'centered-cell',
-                    width     : '15%',
-                    renderer  : function(value, values) {
-                        var color = (value > 0) ? '009933' : 'FF0000';
-                        return '<span style="color: #' + color + ';">' + value + '</span>';
+            items      : Ext.create('Ext.ux.touch.grid.View', {
+                flex     : 1,
+                store    : store,
+                calcWidth : true,
+
+                features : [
+                    {
+                        ftype    : 'Ext.ux.touch.grid.feature.HeaderMenu',
+                        launchFn : 'initialize'
+                    },
+                    {
+                        ftype    : 'Ext.ux.touch.grid.feature.Sorter',
+                        launchFn : 'initialize'
                     }
-                },
-                {
-                    header    : '% Change',
-                    dataIndex : 'pct',
-                    cls       : 'centered-cell',
-                    width     : '15%',
-                    renderer  : function(value, values) {
-                        var color = (value > 0) ? '009933' : 'FF0000';
-                        return '<span style="color: #' + color + ';">' + value + '</span>';
+                ],
+                columns : [
+                    {
+                        header    : 'Company',
+                        dataIndex : 'company',
+                        style     : 'padding-left: 1em;',
+                        //width     : '40%',
+                        width     : 800,
+                        sortable  : false,
+                        filter    : { type : 'string' }
+                    },
+                    {
+                        header    : 'Price',
+                        dataIndex : 'price',
+                        style     : 'text-align: center;',
+                        //width     : '15%',
+                        width     : 200,
+                        filter    : { type : 'numeric' }
+                    },
+                    {
+                        header    : 'Change',
+                        dataIndex : 'change',
+                        cls       : 'centered-cell',
+                        //width     : '15%',
+                        width     : 200,
+                        renderer  : function(value, values) {
+                            var color = (value > 0) ? '009933' : 'FF0000';
+                            return '<span style="color: #' + color + ';">' + value + '</span>';
+                        }
+                    },
+                    {
+                        header    : '% Change',
+                        dataIndex : 'pct',
+                        cls       : 'centered-cell',
+                        //width     : '15%',
+                        width     : 200,
+                        renderer  : function(value, values) {
+                            var color = (value > 0) ? '009933' : 'FF0000';
+                            return '<span style="color: #' + color + ';">' + value + '</span>';
+                        }
+                    },
+                    {
+                        header    : 'Last Updated',
+                        dataIndex : 'updated',
+                        hidden    : true,
+                        style     : 'text-align: right; padding-right: 1em;',
+                        //width     : '15%'
+                        width     : 200
                     }
-                },
-                {
-                    header    : 'Last Updated',
-                    dataIndex : 'updated',
-                    hidden    : true,
-                    style     : 'text-align: right; padding-right: 1em;',
-                    width     : '15%'
-                }
-            ]
+                ]
+            })
         });
     }
 });

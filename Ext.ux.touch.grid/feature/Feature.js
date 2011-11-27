@@ -5,11 +5,12 @@ Ext.define('Ext.ux.touch.grid.feature.Feature', {
         id: 'feature'
     },
 
-    initFeatures: function(features) {
-        features = features || [];
+    initFeatures: function(features, launchFn) {
+        var me = this;
 
-        var me   = this,
-            f    = 0,
+        features = me.getFeatures(features, launchFn);
+
+        var f    = 0,
             fNum = features.length,
             feature, cfg;
 
@@ -48,5 +49,24 @@ Ext.define('Ext.ux.touch.grid.feature.Feature', {
                 feature.onDestroy();
             }
         });
+    },
+
+    getFeatures: function(features, launchFn) {
+        features = features || [];
+
+        var f           = 0,
+            fNum        = features.length,
+            retFeatures = [],
+            feature;
+
+        for (; f < fNum; f++) {
+            feature = features[f];
+
+            if (feature.launchFn === launchFn) {
+                retFeatures.push(feature);
+            }
+        }
+
+        return retFeatures
     }
 });

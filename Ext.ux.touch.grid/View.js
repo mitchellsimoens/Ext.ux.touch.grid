@@ -1,25 +1,30 @@
 Ext.define('Ext.ux.touch.grid.View', {
-    extend   : 'Ext.DataView',
+    extend   : 'Ext.dataview.DataView',
     xtype    : 'touchgridpanel',
+
     requires : ['Ext.ux.touch.grid.feature.Feature'],
     mixins   : ['Ext.ux.touch.grid.feature.Feature'],
 
     config : {
-        cls : 'touchgridpanel'
+        columns : [],
+        cls     : 'touchgridpanel'
     },
 
     constructor: function(config) {
-        var me = this;
+        var me       = this,
+            columns = config.columns || me.config.columns || me.columns;
 
         Ext.apply(config, {
-            itemTpl : me._buildTpl(config.colModel, false)
+            itemTpl : me._buildTpl(columns, false)
         });
 
-        if (typeof me.initFeatures === 'function') {
-            me.initFeatures(config.features.constructorFn);
+        if (typeof me.initFeatures === 'function' && typeof config.features === 'object') {
+            me.initFeatures(config.features, 'constructor');
         }
 
         me.callParent(arguments);
+
+        me.setWidth(me._buildWidth());
     },
 
     initialize: function() {
@@ -30,30 +35,55 @@ Ext.define('Ext.ux.touch.grid.View', {
             cls    : 'x-grid-hd-row',
             docked : 'top',
             height : 40,
-            html   : me._buildTpl(this.colModel, true)
+            html   : me._buildTpl(me.getColumns(), true)
         });
 
-        if (typeof me.initFeatures === 'function') {
-            me.initFeatures(me.features.initializeFn);
+        if (typeof me.initFeatures === 'function' && typeof me.features === 'object') {
+            me.initFeatures(me.features, 'initialize');
         }
 
         me.callParent(arguments);
+    },
+
+    _buildWidth: function() {
+        var me       = this,
+            columns  = me.getColumns(),
+            c        = 0,
+            cNum     = columns.length,
+            retWidth = 0,
+            stop     = false,
+            column, width;
+
+        //console.log(me.getCalcWidth());
+        for (; c < cNum; c++) {
+            column = columns[c];
+            width  = column.width;
+
+            if (!Ext.isNumber(width)) {
+                stop = true;
+                break;
+            }
+
+            retWidth += width;
+        }
+
+        return stop ? undefined : retWidth;
     },
 
     _defaultRenderer: function(value, values) {
         return value;
     },
 
-    _buildTpl: function(colModel, header) {
+    _buildTpl: function(columns, header) {
         var tpl        = [],
             c          = 0,
-            cNum       = colModel.length,
+            cNum       = columns.length,
             basePrefix = Ext.baseCSSPrefix,
             renderers  = {},
             column, css, styles, attributes, width, renderer, rendererName, innerText;
 
         for (; c < cNum; c++) {
-            column        = colModel[c];
+            column        = columns[c];
             css           = [basePrefix + 'grid-cell'],
             styles        = [];
             attributes    = ['dataindex="' + column.dataIndex + '"'];
@@ -96,5 +126,23 @@ Ext.define('Ext.ux.touch.grid.View', {
         }
 
         return tpl;
+    },
+
+    getColumn: function(dataIndex) {
+        var me       = this,
+            columns = me.columns,
+            c        = 0,
+            cNum     = columns.length,
+            column;
+
+        for (; c < cNum; c++) {
+            column = columns[c];
+
+            if (column.dataIndex === dataIndex) {
+                break;
+            }
+        }
+
+        return column;
     }
 });

@@ -2,13 +2,10 @@ Ext.define('Ext.ux.touch.grid.feature.Sorter', {
     extend   : 'Ext.ux.touch.grid.feature.Abstract',
     requires : 'Ext.ux.touch.grid.feature.Abstract',
 
-    clearSorters : false,
-
     config : {
         events : {
             grid    : {
-                beforesort : 'isSortable',
-                sort       : 'updateHeaderIcons'
+                sort : 'updateHeaderIcons'
             },
             headerEl : {
                 tap        : 'handleHeaderTap'
@@ -42,25 +39,24 @@ Ext.define('Ext.ux.touch.grid.feature.Sorter', {
 
         var me        = this,
             grid      = me.grid,
-            colModel  = grid.colModel,
+            columns   = grid.getColumns(),
             c         = 0,
-            cNum      = colModel.length,
+            cNum      = columns.length,
             store     = grid.getStore(),
             el        = Ext.get(t),
             dataIndex = el.getAttribute('dataindex'),
-            sorters   = store.sorters,
-            dir       = sorters.get(dataIndex),
+            dir       = store.sorters.get(dataIndex),
             column;
 
         for (; c < cNum; c++) {
-            column = colModel[c];
+            column = columns[c];
 
             if (column.dataIndex === dataIndex) {
                 break;
             }
         }
 
-        if (grid.fireEvent('beforesort', grid, column) == false) {
+        if (grid.fireEvent('beforesort', grid, column) == false || !me.isSortable(grid, column)) {
             return;
         }
 
@@ -68,14 +64,7 @@ Ext.define('Ext.ux.touch.grid.feature.Sorter', {
             dir = dir.direction || 'DESC';
         }
 
-        if (me.clearSorters) {
-            sorters.removeAll();
-        }
-
-        sorters.add(new Ext.util.Sorter({
-            property  : dataIndex,
-            direction : dir === 'DESC' ? 'ASC' : 'DESC'
-        }));
+        store.sort(dataIndex, dir === 'DESC' ? 'ASC' : 'DESC');
 
         grid.fireEvent('sort');
     },
@@ -87,9 +76,9 @@ Ext.define('Ext.ux.touch.grid.feature.Sorter', {
             sorters  = store.sorters,
             header   = grid.header,
             headerEl = header.element,
-            colModel = grid.colModel,
+            columns  = grid.getColumns(),
             c        = 0,
-            cNum     = colModel.length,
+            cNum     = columns.length,
             cls      = {
                 ASC  : 'x-grid-sort-asc',
                 DESC : 'x-grid-sort-desc'
@@ -97,7 +86,7 @@ Ext.define('Ext.ux.touch.grid.feature.Sorter', {
             column, dataIndex, colEl, sorter, dir;
 
         for (; c < cNum; c++) {
-            column    = colModel[c];
+            column    = columns[c];
             dataIndex = column.dataIndex;
             colEl     = Ext.get(headerEl.query('div.x-grid-cell-hd[dataindex='+dataIndex+']')[0]);
             sorter    = sorters.get(dataIndex);
@@ -106,6 +95,8 @@ Ext.define('Ext.ux.touch.grid.feature.Sorter', {
                 dir = sorter.direction;
 
                 colEl.removeCls(cls[dir]).addCls(cls[dir === 'DESC' ? 'ASC' : 'DESC']);
+            } else {
+                colEl.removeCls(cls.ASC).removeCls(cls.DESC);
             }
         }
     }

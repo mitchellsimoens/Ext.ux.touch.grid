@@ -7,7 +7,7 @@ Ext.define('Ext.ux.touch.grid.feature.Abstract', {
         config = config || {};
 
         var me = this,
-            grid, events, cls, clsEvents, eventName, eventObj;
+            grid, events, cls, clsEvents, eventName, eventFn, eventCfg;
 
         Ext.apply(me, config);
 
@@ -27,20 +27,22 @@ Ext.define('Ext.ux.touch.grid.feature.Abstract', {
                 cls = grid.element.down('div.x-body');
             } else {
                 cls = grid[cls];
-
-                console.log(cls);
             }
 
             if (Ext.isObject(cls)) {
-                eventObj = {
-                    scope : me
-                };
-
                 for (eventName in clsEvents) {
-                    eventObj[eventName] = me[clsEvents[eventName]];
-                }
+                    eventFn = clsEvents[eventName];
 
-                cls.on(eventObj);
+                    if (Ext.isObject(eventFn)) {
+                        eventCfg = Ext.apply({}, eventFn);
+
+                        delete eventCfg.fn;
+
+                        eventFn = eventFn.fn;
+                    }
+
+                    cls.on(eventName, me[eventFn], me, eventCfg || {});
+                }
             } else {
                 console.warn('Class could not be found in config.events Object');
             }
