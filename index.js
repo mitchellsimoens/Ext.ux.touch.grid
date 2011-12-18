@@ -1,6 +1,6 @@
 Ext.Loader.setConfig({
-    enabled: true,
-    paths: {
+    enabled : true,
+    paths   : {
         'Ext.ux.touch.grid': './Ext.ux.touch.grid'
     }
 });

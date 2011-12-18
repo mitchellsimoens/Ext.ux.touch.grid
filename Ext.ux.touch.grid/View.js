@@ -34,8 +34,7 @@ Ext.define('Ext.ux.touch.grid.View', {
             xtype  : 'container',
             cls    : 'x-grid-hd-row',
             docked : 'top',
-            height : 40,
-            html   : me._buildTpl(me.getColumns(), true)
+            height : 40
         });
 
         if (typeof me.initFeatures === 'function' && typeof me.features === 'object') {
@@ -43,6 +42,8 @@ Ext.define('Ext.ux.touch.grid.View', {
         }
 
         me.callParent(arguments);
+
+        me.header.setHtml(me._buildTpl(me.getColumns(), true));
     },
 
     _buildWidth: function() {
@@ -54,7 +55,6 @@ Ext.define('Ext.ux.touch.grid.View', {
             stop     = false,
             column, width;
 
-        //console.log(me.getCalcWidth());
         for (; c < cNum; c++) {
             column = columns[c];
             width  = column.width;
@@ -104,6 +104,8 @@ Ext.define('Ext.ux.touch.grid.View', {
                 if (column.cls) {
                     css.push(column.cls);
                 }
+
+                renderers[rendererName] = renderer;
             }
 
             if (width) {
@@ -114,15 +116,13 @@ Ext.define('Ext.ux.touch.grid.View', {
                 attributes.push('style ="' + styles.join(' ') + '"');
             }
 
-            renderers[rendererName] = renderer;
-
             tpl.push('<div class="' + css.join(' ') + '" ' + attributes.join('') + '>' + innerText + '</div>');
         }
 
         tpl = tpl.join('');
 
         if (!header) {
-            return new Ext.XTemplate(tpl, renderers);
+            return Ext.create('Ext.XTemplate', tpl, renderers);
         }
 
         return tpl;
@@ -130,7 +130,7 @@ Ext.define('Ext.ux.touch.grid.View', {
 
     getColumn: function(dataIndex) {
         var me       = this,
-            columns = me.columns,
+            columns  = me.getColumns(),
             c        = 0,
             cNum     = columns.length,
             column;
