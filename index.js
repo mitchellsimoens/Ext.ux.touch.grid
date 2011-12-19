@@ -71,7 +71,7 @@ Ext.setup({
                 },
                 {
                     ftype    : 'Ext.ux.touch.grid.feature.Sorter',
-                    launchFn : 'contructor'
+                    launchFn : 'initialize'
                 }
             ],
             columns   : [

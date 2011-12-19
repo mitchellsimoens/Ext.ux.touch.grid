@@ -8,7 +8,7 @@ Ext.define('Ext.ux.touch.grid.feature.Sorter', {
                 sort : 'updateHeaderIcons'
             },
             headerEl : {
-                tap        : 'handleHeaderTap'
+                tap : 'handleHeaderTap'
             }
         }
     },
