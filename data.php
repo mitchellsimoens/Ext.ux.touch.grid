@@ -143,7 +143,14 @@ $data    = array(
     array( "firstName" => "Jay", "lastName" => "Robinson" ),
     array( "firstName" => "Zed", "lastName" => "Zacharias" )
 );
-$dataset = array_splice($data, $start, $limit);
+$dataset = array();
+
+for ($i = 0; $i < $limit; $i++) {
+    $offset = $i + $start;
+    if (isset($data[$offset])) {
+        array_push($dataset, $data[$offset]);
+    }
+}
 
 if ($callback) {
     echo $callback . '(';
