@@ -25,6 +25,8 @@ Ext.define('Ext.ux.touch.grid.feature.Abstract', {
                 cls = grid.header.element;
             } else if (cls === 'gridBody') {
                 cls = grid.element.down('div.x-body');
+            } else if (cls === 'store') {
+                cls = grid.getStore();
             } else {
                 cls = grid[cls];
             }
