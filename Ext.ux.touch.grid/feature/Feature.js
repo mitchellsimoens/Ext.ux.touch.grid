@@ -28,7 +28,7 @@ Ext.define('Ext.ux.touch.grid.feature.Feature', {
 
             cfg.grid = me;
 
-            feature = Ext.ClassManager.instantiate(feature, cfg);
+            feature = Ext.create(feature, cfg);
 
             if (feature && typeof feature.init === 'function') {
                 me._features.add(feature);
