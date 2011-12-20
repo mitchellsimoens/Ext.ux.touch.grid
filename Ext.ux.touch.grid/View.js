@@ -6,8 +6,12 @@ Ext.define('Ext.ux.touch.grid.View', {
     mixins   : ['Ext.ux.touch.grid.feature.Feature'],
 
     config : {
-        columns : [],
-        cls     : 'touchgridpanel'
+        columns      : [],
+        cls          : 'touchgridpanel',
+        headerConfig : {
+            xtype  : 'toolbar',
+            docked : 'top'
+        }
     },
 
     constructor: function(config) {
@@ -30,12 +34,7 @@ Ext.define('Ext.ux.touch.grid.View', {
     initialize: function() {
         var me = this;
 
-        me.header = me.insert(0, {
-            xtype  : 'container',
-            cls    : 'x-grid-hd-row',
-            docked : 'top',
-            height : 40
-        });
+        me.header = me.buildHeader();
 
         if (typeof me.initFeatures === 'function' && typeof me.features === 'object') {
             me.initFeatures(me.features, 'initialize');
@@ -44,6 +43,10 @@ Ext.define('Ext.ux.touch.grid.View', {
         me.callParent(arguments);
 
         me.header.setHtml(me._buildTpl(me.getColumns(), true));
+    },
+
+    buildHeader: function() {
+        return this.insert(0, this.getHeaderConfig());
     },
 
     _buildWidth: function() {
