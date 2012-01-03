@@ -10,7 +10,8 @@ Ext.define('Ext.ux.touch.grid.View', {
         cls          : 'touchgridpanel',
         headerConfig : {
             xtype  : 'toolbar',
-            docked : 'top'
+            docked : 'top',
+            cls    : 'x-grid-header'
         }
     },
 
