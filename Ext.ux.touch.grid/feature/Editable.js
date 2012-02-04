@@ -12,8 +12,8 @@ Ext.define('Ext.ux.touch.grid.feature.Editable', {
     },
 
     handleDoubleTap : function(grid, index, rowEl, rec, e) {
-        var target    = e.getTarget('div.x-grid-cell'),
-            cellEl    = Ext.get(target);
+        var target = e.getTarget('div.x-grid-cell'),
+            cellEl = Ext.get(target);
 
         if (!cellEl) {
             return;
