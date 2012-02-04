@@ -1,52 +1,57 @@
 Ext.define('Ext.ux.touch.grid.feature.Abstract', {
     config : {
-        events : {}
+        events : {},
+        grid   : null
     },
 
-    constructor: function(config) {
-        config = config || {};
+    constructor : function(config) {
+        this.initConfig(config);
 
-        var me = this,
-            grid, events, cls, clsEvents, eventName, eventFn, eventCfg;
+        this.callParent([config]);
+    },
 
-        Ext.apply(me, config);
-
-        me.callParent(arguments);
-
-        grid   = me.grid;
-        events = me.getEvents();
+    updateEvents : function(events) {
+        var me   = this,
+            grid = me.getGrid(),
+            cls, clsEvents;
 
         for (cls in events) {
-            clsEvents = events[cls];
+            if (events.hasOwnProperty(cls)) {
+                clsEvents = events[cls];
 
-            if (cls === 'grid') {
-                cls = grid;
-            } else if (cls === 'headerEl') {
-                cls = grid.header.element;
-            } else if (cls === 'gridBody') {
-                cls = grid.element.down('div.x-body');
-            } else if (cls === 'store') {
-                cls = grid.getStore();
-            } else {
-                cls = grid[cls];
-            }
-
-            if (Ext.isObject(cls)) {
-                for (eventName in clsEvents) {
-                    eventFn = clsEvents[eventName];
-
-                    if (Ext.isObject(eventFn)) {
-                        eventCfg = Ext.apply({}, eventFn);
-
-                        delete eventCfg.fn;
-
-                        eventFn = eventFn.fn;
-                    }
-
-                    cls.on(eventName, me[eventFn], me, eventCfg || {});
+                if (cls === 'grid') {
+                    cls = grid;
+                } else if (cls === 'header') {
+                    cls = grid.getHeader();
+                } else if (cls === 'headerEl') {
+                    cls = grid.getHeader().element;
+                } else if (cls === 'gridBody') {
+                    cls = grid.element.down('div.x-body');
+                } else if (cls === 'store') {
+                    cls = grid.getStore();
+                } else {
+                    cls = grid[cls];
                 }
-            } else {
-                console.warn('Class could not be found in config.events Object');
+
+                var eventName, eventFn, eventCfg;
+
+                if (Ext.isObject(cls)) {
+                    for (eventName in clsEvents) {
+                        eventFn = clsEvents[eventName];
+
+                        if (Ext.isObject(eventFn)) {
+                            eventCfg = Ext.apply({}, eventFn);
+
+                            delete eventCfg.fn;
+
+                            eventFn = eventFn.fn;
+                        }
+
+                        cls.on(eventName, me[eventFn], me, eventCfg || {});
+                    }
+                } else {
+                    console.warn('Class could not be found in config.events Object');
+                }
             }
         }
     }

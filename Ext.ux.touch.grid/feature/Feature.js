@@ -2,7 +2,7 @@ Ext.define('Ext.ux.touch.grid.feature.Feature', {
     extend: 'Ext.mixin.Mixin',
 
     mixinConfig: {
-        id: 'feature'
+        id : 'feature'
     },
 
     initFeatures: function(features, launchFn) {
@@ -14,7 +14,9 @@ Ext.define('Ext.ux.touch.grid.feature.Feature', {
             fNum = features.length,
             feature, cfg;
 
-        me._features = Ext.create('Ext.util.MixedCollection');
+        if (!me._features) {
+            me._features = Ext.create('Ext.util.MixedCollection');
+        }
 
         for (; f < fNum; f++) {
             feature = features[f];
