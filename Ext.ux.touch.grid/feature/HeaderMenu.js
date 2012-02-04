@@ -4,7 +4,7 @@ Ext.define('Ext.ux.touch.grid.feature.HeaderMenu', {
         'Ext.ux.touch.grid.feature.Abstract',
         'Ext.tab.Panel',
         'Ext.form.Panel',
-        'Ext.dataview.ComponentView'
+        'Ext.dataview.DataView'
     ],
 
     showFilter : true,
@@ -132,11 +132,9 @@ Ext.define('Ext.ux.touch.grid.feature.HeaderMenu', {
                         }
                     },
                     {
-                        xtype      : 'componentview',
-                        store      : filterStore,
-                        itemConfig : {
-                            tpl : '{property} - {value}'
-                        }
+                        xtype   : 'dataview',
+                        store   : filterStore,
+                        itemTpl : '{property} - {value}'
                     }
                 ]
             });
