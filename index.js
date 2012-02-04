@@ -8,7 +8,6 @@ Ext.Loader.setConfig({
 Ext.require([
     'Ext.ux.touch.grid.View',
     'Ext.ux.touch.grid.feature.Feature',
-    'Ext.ux.touch.grid.feature.HeaderMenu',
     'Ext.ux.touch.grid.feature.Sorter'
 ]);
 
@@ -68,10 +67,6 @@ Ext.setup({
             store      : store,
 
             features   : [
-                {
-                    ftype    : 'Ext.ux.touch.grid.feature.HeaderMenu',
-                    launchFn : 'initialize'
-                },
                 {
                     ftype    : 'Ext.ux.touch.grid.feature.Sorter',
                     launchFn : 'initialize'
