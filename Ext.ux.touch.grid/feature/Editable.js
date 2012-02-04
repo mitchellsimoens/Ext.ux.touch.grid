@@ -11,7 +11,7 @@ Ext.define('Ext.ux.touch.grid.feature.Editable', {
         }
     },
 
-    handleDoubleTap : function(grid, index, rowEl, e) {
+    handleDoubleTap : function(grid, index, rowEl, rec, e) {
         var target    = e.getTarget('div.x-grid-cell'),
             cellEl    = Ext.get(target);
 
@@ -22,45 +22,41 @@ Ext.define('Ext.ux.touch.grid.feature.Editable', {
         var dataIndex = cellEl.getAttribute('dataindex'),
             column    = grid.getColumn(dataIndex),
             editor    = column.editor,
-            store     = grid.getStore(),
-            rec       = store.getAt(index),
             value     = rec.get(dataIndex),
-            htmlValue = cellEl.getHTML();
+            htmlValue = cellEl.getHtml();
 
         if (!editor) {
             return;
         }
 
-        cellEl.update('');
+        cellEl.setHtml('');
 
         Ext.apply(editor, {
-            renderTo     : cellEl,
-            value        : value,
-            defaultValue : value, //TODO remove when isDirty reports correctly
-            htmlValue    : htmlValue,
-            record       : rec,
-            name         : dataIndex
+            renderTo  : cellEl,
+            value     : value,
+            htmlValue : htmlValue,
+            record    : rec,
+            name      : dataIndex
         });
 
         grid.activeEditor = Ext.ComponentManager.create(editor);
     },
 
-    handleTap : function(grid, index, rowEl, e) {
+    handleTap : function(grid, index, rowEl, rec, e) {
         var editor = grid.activeEditor;
 
         if (editor) {
-            if (!e.getTarget('input')) {
+            if (!e.getTarget('input') && !e.getTarget('div.x-clear-icon')) {
                 //TODO isDirty in PR3 always reports dirty
-                //if (editor.isDirty()) {
                 var component = editor.getComponent(),
                     value     = component.getValue();
 
                 editor.destroy();
 
-                if (editor.defaultValue !== value) {
+                if (editor.isDirty()) {
                     editor.record.set(editor.getName(), value);
                 } else {
-                    editor.getRenderTo().update(editor.htmlValue);
+                    editor.getRenderTo().setHtml(editor.htmlValue);
                 }
 
                 delete grid.activeEditor;
@@ -69,6 +65,6 @@ Ext.define('Ext.ux.touch.grid.feature.Editable', {
     },
 
     handleFieldDestroy: function(cellEl, htmlValue) {
-        cellEl.update(htmlValue);
+        cellEl.setHtml(htmlValue);
     }
 });
