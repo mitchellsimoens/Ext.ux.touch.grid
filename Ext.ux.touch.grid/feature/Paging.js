@@ -1,8 +1,17 @@
 Ext.define('Ext.ux.touch.grid.feature.Paging', {
     extend   : 'Ext.ux.touch.grid.feature.Abstract',
-    requires : 'Ext.ux.touch.grid.feature.Abstract',
+    requires : [
+        'Ext.ux.touch.grid.feature.Abstract',
+        'Ext.dataview.List'
+    ],
 
     config : {
+        events : {
+            store : {
+                load : 'handleGridPaint'
+            }
+        },
+
         backButton    : {
             text : 'Previous Page',
             ui   : 'back'
@@ -91,20 +100,20 @@ Ext.define('Ext.ux.touch.grid.feature.Paging', {
 
     handleGridPaint : function(grid) {
         if (!(grid instanceof Ext.ux.touch.grid.View)) {
-            grid = this.grid;
+            grid = this.getGrid();
         }
 
         var me    = this,
             store = grid.getStore();
 
         if (store.isLoading()) {
-            store.on('load', 'handleGridPaint', this);
+            store.on('load', 'handleGridPaint', this, { single : true });
             return;
         }
 
         var total         = store.getTotalCount(),
             currentPage   = store.currentPage,
-            pages         = Math.ceil(total / store.pageSize),
+            pages         = Math.ceil(total / store.getPageSize()),
             backButton    = me.getBackButton(),
             forwardButton = me.getForwardButton(),
             goToButton    = me.getGoToButton();
@@ -116,15 +125,15 @@ Ext.define('Ext.ux.touch.grid.feature.Paging', {
         goToButton   .setDisabled(pages       == 0);
     },
 
-    handleBackButton : function(btn) {
-        var grid  = this.grid,
+    handleBackButton : function() {
+        var grid  = this.getGrid(),
             store = grid.getStore();
 
         store.previousPage();
     },
 
-    handleForwardButton : function(btn) {
-        var grid  = this.grid,
+    handleForwardButton : function() {
+        var grid  = this.getGrid(),
             store = grid.getStore();
 
         store.nextPage();
@@ -181,7 +190,7 @@ Ext.define('Ext.ux.touch.grid.feature.Paging', {
 
     handlePageSelect : function(list, index) {
         var panel = list.up('panel'),
-            store = this.grid.getStore(),
+            store = this.getGrid().getStore(),
             page  = index + 1;
 
         store.loadPage(page);
