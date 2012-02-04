@@ -8,7 +8,7 @@ Ext.define('Ext.ux.touch.grid.View', {
     config : {
         columns      : [],
         cls          : 'touchgridpanel',
-        headerConfig : {
+        header       : {
             xtype  : 'toolbar',
             docked : 'top',
             cls    : 'x-grid-header'
@@ -17,17 +17,18 @@ Ext.define('Ext.ux.touch.grid.View', {
 
     constructor: function(config) {
         var me       = this,
-            columns = config.columns || me.config.columns || me.columns;
+            columns  = config.columns || me.config.columns || me.columns,
+            features = me.features = config.features || me.config.features || me.features;
 
         Ext.apply(config, {
             itemTpl : me._buildTpl(columns, false)
         });
 
         if (typeof me.initFeatures === 'function' && typeof config.features === 'object') {
-            me.initFeatures(config.features, 'constructor');
+            me.initFeatures(features, 'constructor');
         }
 
-        me.callParent(arguments);
+        me.callParent([config]);
 
         me.setWidth(me._buildWidth());
     },
@@ -35,19 +36,25 @@ Ext.define('Ext.ux.touch.grid.View', {
     initialize: function() {
         var me = this;
 
-        me.header = me.buildHeader();
+        me.callParent();
 
         if (typeof me.initFeatures === 'function' && typeof me.features === 'object') {
             me.initFeatures(me.features, 'initialize');
         }
-
-        me.callParent(arguments);
-
-        me.header.setHtml(me._buildTpl(me.getColumns(), true));
     },
 
-    buildHeader: function() {
-        return this.insert(0, this.getHeaderConfig());
+    applyHeader : function(config) {
+        Ext.apply(config, {
+            docked : 'top',
+            cls    : 'x-grid-header',
+            html   : this._buildTpl(this.getColumns(), true)
+        });
+
+        return Ext.factory(config, Ext.Toolbar);
+    },
+
+    updateHeader : function(header) {
+        this.insert(0, header);
     },
 
     _buildWidth: function() {
@@ -74,7 +81,7 @@ Ext.define('Ext.ux.touch.grid.View', {
         return stop ? undefined : retWidth;
     },
 
-    _defaultRenderer: function(value, values) {
+    _defaultRenderer: function(value) {
         return value;
     },
 
