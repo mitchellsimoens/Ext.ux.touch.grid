@@ -8,7 +8,9 @@ Ext.define('Ext.ux.touch.grid.feature.Editable', {
                 itemdoubletap : 'handleDoubleTap',
                 itemtap       : 'handleTap'
             }
-        }
+        },
+
+        activeEditor : null
     },
 
     handleDoubleTap : function(grid, index, rowEl, rec, e) {
@@ -39,26 +41,29 @@ Ext.define('Ext.ux.touch.grid.feature.Editable', {
             name      : dataIndex
         });
 
-        grid.activeEditor = Ext.ComponentManager.create(editor);
+        editor.field = Ext.ComponentManager.create(editor);
+
+        this.setActiveEditor(editor);
     },
 
     handleTap : function(grid, index, rowEl, rec, e) {
-        var editor = grid.activeEditor;
+        var editor = this.getActiveEditor();
 
         if (editor) {
             if (!e.getTarget('input') && !e.getTarget('div.x-clear-icon')) {
-                var component = editor.getComponent(),
+                var field     = editor.field,
+                    component = field.getComponent(),
                     value     = component.getValue();
 
-                editor.destroy();
+                field.destroy();
 
-                if (editor.isDirty()) {
-                    editor.record.set(editor.getName(), value);
+                if (field.isDirty()) {
+                    editor.record.set(field.getName(), value);
                 } else {
-                    editor.getRenderTo().setHtml(editor.htmlValue);
+                    field.getRenderTo().setHtml(editor.htmlValue);
                 }
 
-                delete grid.activeEditor;
+                this.setActiveEditor(null);
             }
         }
     },
