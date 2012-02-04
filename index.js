@@ -16,13 +16,16 @@ Ext.setup({
     onReady: function() {
         Ext.define('TestModel', {
             extend : 'Ext.data.Model',
-			fields : [
-		        'company',
-		        'price',
-		        'change',
-		        'pct',
-		        'updated'
-			]
+
+            config : {
+                fields : [
+                    'company',
+                    'price',
+                    'change',
+                    'pct',
+                    'updated'
+                ]
+            }
 		});
 
         var store = Ext.create('Ext.data.Store', {
