@@ -47,7 +47,6 @@ Ext.define('Ext.ux.touch.grid.feature.Editable', {
 
         if (editor) {
             if (!e.getTarget('input') && !e.getTarget('div.x-clear-icon')) {
-                //TODO isDirty in PR3 always reports dirty
                 var component = editor.getComponent(),
                     value     = component.getValue();
 
