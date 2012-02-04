@@ -15,24 +15,26 @@ Ext.require([
 Ext.define('TestModel', {
     extend : 'Ext.data.Model',
 
-    fields : [
-        'firstName',
-        'lastName',
-        {
-            name    : 'fullName',
-            convert : function(val, rec) {
-                var data = rec.data;
-                return data.lastName + ', ' + data.firstName;
+    config : {
+        fields : [
+            'firstName',
+            'lastName',
+            {
+                name    : 'fullName',
+                convert : function(val, rec) {
+                    var data = rec.data;
+                    return data.lastName + ', ' + data.firstName;
+                }
             }
-        }
-    ],
+        ],
 
-    proxy : {
-        type   : 'ajax',
-        url    : 'data.php',
-        reader : {
-            type : 'json',
-            root : 'data'
+        proxy : {
+            type   : 'ajax',
+            url    : 'data.php',
+            reader : {
+                type         : 'json',
+                rootProperty : 'data'
+            }
         }
     }
 });
