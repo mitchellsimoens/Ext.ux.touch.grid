@@ -78,7 +78,6 @@ Ext.setup({
                     dataIndex : 'company',
                     style     : 'padding-left: 1em;',
                     width     : '40%',
-                    sortable  : false,
                     filter    : { type : 'string' }
                 },
                 {
@@ -113,6 +112,7 @@ Ext.setup({
                     dataIndex : 'updated',
                     hidden    : true,
                     style     : 'text-align: right; padding-right: 1em;',
+                    sortable  : false,
                     width     : '15%'
                 }
             ]

@@ -13,6 +13,13 @@ Ext.require([
 
 Ext.setup({
     onReady: function() {
+        var body  = Ext.getBody(),
+            width = body.getWidth();
+
+        if (width >= 1600) {
+            console.warn('This demo is best viewed with a screen size less than 1600 pixels.');
+        }
+
         Ext.define('TestModel', {
             extend : 'Ext.data.Model',
 
@@ -85,16 +92,13 @@ Ext.setup({
                         header    : 'Company',
                         dataIndex : 'company',
                         style     : 'padding-left: 1em;',
-                        //width     : '40%',
                         width     : 800,
-                        sortable  : false,
                         filter    : { type : 'string' }
                     },
                     {
                         header    : 'Price',
                         dataIndex : 'price',
                         style     : 'text-align: center;',
-                        //width     : '15%',
                         width     : 200,
                         filter    : { type : 'numeric' }
                     },
@@ -102,7 +106,6 @@ Ext.setup({
                         header    : 'Change',
                         dataIndex : 'change',
                         cls       : 'centered-cell',
-                        //width     : '15%',
                         width     : 200,
                         renderer  : function(value, values) {
                             var color = (value > 0) ? '009933' : 'FF0000';
@@ -113,7 +116,6 @@ Ext.setup({
                         header    : '% Change',
                         dataIndex : 'pct',
                         cls       : 'centered-cell',
-                        //width     : '15%',
                         width     : 200,
                         renderer  : function(value, values) {
                             var color = (value > 0) ? '009933' : 'FF0000';
@@ -123,9 +125,8 @@ Ext.setup({
                     {
                         header    : 'Last Updated',
                         dataIndex : 'updated',
-                        hidden    : true,
                         style     : 'text-align: right; padding-right: 1em;',
-                        //width     : '15%'
+                        sortable  : false,
                         width     : 200
                     }
                 ]
