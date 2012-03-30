@@ -23,8 +23,8 @@ Ext.define('Ext.ux.touch.grid.feature.Feature', {
             cfg     = {};
 
             if (typeof feature === 'object') {
-                cfg     = feature;
-                feature = feature.ftype;
+                Ext.apply(cfg, feature);
+                feature = cfg.ftype;
                 delete cfg.ftype;
             }
 
