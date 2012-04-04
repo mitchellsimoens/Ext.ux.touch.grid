@@ -12,90 +12,205 @@ Ext.define('Ext.ux.touch.grid.feature.Paging', {
             }
         },
 
+        goToButton    : {
+            disabled : true,
+            text     : 'Go to page...'
+        },
         backButton    : {
-            text : 'Previous Page',
-            ui   : 'back'
+            disabled : true,
+            text     : 'Previous Page',
+            ui       : 'back'
         },
         forwardButton : {
-            text : 'Next Page',
-            ui   : 'forward'
-        },
-        goToButton    : {
-            text : 'Go to page...'
+            disabled : true,
+            text     : 'Next Page',
+            ui       : 'forward'
         },
 
         pager         : {
-            xtype  : 'toolbar',
-            docked : 'top',
-            layout : {
-                type : 'hbox'
-            }
+            docked : 'top'
         },
 
         pageListTpl : 'Page {page}',
-        goToPicker  : null,
+        goToPicker  : {
+            centered      : true,
+            modal         : true,
+            width         : 200,
+            height        : 200,
+            layout        : 'fit',
+            hideOnMaskTap : true
+        },
         pages       : 0
     },
 
     backText : 'back',
 
     init : function(grid) {
-        var me         = this,
-            backBtn    = me.getBackButton(),
-            forwardBtn = me.getForwardButton(),
-            goToBtn    = me.getGoToButton(),
-            pager      = me.getPager();
+        var store = grid.getStore();
 
-        Ext.apply(backBtn, {
+        if (!store.isLoading()) {
+            grid.on('painted', 'handleGridPaint', this, { buffer : 50 });
+        }
+    },
+
+    applyGoToPicker : function(config, oldConfig) {
+        if (!config.hasOwnProperty('items')) {
+            config.items = [
+                {
+                    xtype   : 'list',
+                    itemTpl : this.getPageListTpl(),
+                    store   : new Ext.data.Store({
+                        fields : [
+                            'page'
+                        ]
+                    }),
+                    listeners : {
+                        scope   : this,
+                        itemtap : 'handlePageSelect'
+                    }
+                }
+            ];
+        }
+
+        return Ext.factory(config, Ext.Panel, oldConfig);
+    },
+
+    applyPager : function(newPager, oldPager) {
+        return Ext.factory(newPager, Ext.Toolbar, oldPager);
+    },
+
+    updatePager : function(newPager, oldPager) {
+        var me   = this,
+            grid = me.getGrid();
+
+        if (oldPager) {
+            grid.remove(oldPager);
+        }
+
+        if (newPager) {
+            grid.insert(0, newPager);
+        }
+    },
+
+    applyBackButton : function(config, oldButton) {
+        Ext.apply(config, {
             action   : 'back',
             disabled : true,
             scope    : this,
             handler  : 'handleBackButton'
         });
 
-        Ext.apply(forwardBtn, {
-            action   : 'forward',
-            disabled : true,
-            scope    : this,
-            handler  : 'handleForwardButton'
-        });
+        return Ext.factory(config, Ext.Button, oldButton);
+    },
 
-        Ext.apply(goToBtn, {
+    applyGoToButton : function(config, oldButton) {
+        Ext.apply(config, {
             action   : 'goTo',
             disabled : true,
             scope    : this,
             handler  : 'handleGoToButton'
         });
 
-        Ext.apply(pager, {
-            items  : [
-                backBtn,
-                {
-                    xtype : 'spacer'
-                },
-                goToBtn,
-                {
-                    xtype : 'spacer'
-                },
-                forwardBtn
-            ]
+        return Ext.factory(config, Ext.Button, oldButton);
+    },
+
+    applyForwardButton : function(config, oldButton) {
+        Ext.apply(config, {
+            action   : 'forward',
+            disabled : true,
+            scope    : this,
+            handler  : 'handleForwardButton'
         });
 
-        me.setPager(
-            pager = grid.insert(0, pager)
-        );
+        return Ext.factory(config, Ext.Button, oldButton);
+    },
 
-        me.setBackButton(
-            pager.down('button[action=back]')
-        );
-        me.setForwardButton(
-            pager.down('button[action=forward]')
-        );
-        me.setGoToButton(
-            pager.down('button[action=goTo]')
-        );
+    updateBackButton : function(newButton, oldButton) {
+        var me    = this,
+            pager = me.getPager(),
+            idx   = 0;
 
-        grid.on('painted', 'handleGridPaint', this, { buffer : 50 });
+        if (oldButton) {
+            idx = pager.getInnerItems().indexOf(oldButton);
+
+            pager.remove(oldButton);
+        }
+
+        if (newButton) {
+            pager.insert(idx, newButton);
+            me.checkSpacers();
+        }
+    },
+
+    updateGoToButton : function(newButton, oldButton) {
+        var me    = this,
+            pager = me.getPager(),
+            idx   = 2;
+
+        if (oldButton) {
+            idx = pager.getInnerItems().indexOf(oldButton);
+
+            pager.remove(oldButton);
+        }
+
+        if (newButton) {
+            pager.insert(idx, newButton);
+            me.checkSpacers();
+        }
+    },
+
+    updateForwardButton : function(newButton, oldButton) {
+        var me    = this,
+            pager = me.getPager(),
+            idx   = 4;
+
+        if (oldButton) {
+            idx = pager.getInnerItems().indexOf(oldButton);
+
+            pager.remove(oldButton);
+        }
+
+        if (newButton) {
+            pager.insert(idx, newButton);
+            me.checkSpacers();
+        }
+    },
+
+    checkSpacers : function() {
+        var me         = this,
+            pager      = this.getPager(),
+            items      = pager.getInnerItems(),
+            forwardBtn = me.getForwardButton(),
+            goToBtn    = me.getGoToButton(),
+            idx, spacer;
+
+        if (forwardBtn) {
+            idx = items.indexOf(forwardBtn);
+
+            if (idx > 0) {
+                spacer = items[idx - 1];
+
+                if (!spacer.isXType('spacer')) {
+                    pager.insert(idx, {
+                        xtype : 'spacer'
+                    });
+                }
+            }
+        }
+
+        if (goToBtn) {
+            idx = items.indexOf(goToBtn);
+
+            if (idx > 0) {
+                spacer = items[idx - 1];
+
+                if (!spacer.isXType('spacer')) {
+                    pager.insert(idx, {
+                        xtype : 'spacer'
+                    });
+                }
+            }
+        }
     },
 
     handleGridPaint : function(grid) {
@@ -107,7 +222,7 @@ Ext.define('Ext.ux.touch.grid.feature.Paging', {
             store = grid.getStore();
 
         if (store.isLoading()) {
-            store.on('load', 'handleGridPaint', this, { single : true });
+            store.on('load', 'handleGridPaint', me, { single : true });
             return;
         }
 
@@ -120,9 +235,9 @@ Ext.define('Ext.ux.touch.grid.feature.Paging', {
 
         me.setPages(pages);
 
-        backButton   .setDisabled(currentPage == 1);
-        forwardButton.setDisabled(currentPage == pages);
-        goToButton   .setDisabled(pages       == 0);
+        backButton   .setDisabled(currentPage === 1);
+        forwardButton.setDisabled(currentPage === pages);
+        goToButton   .setDisabled(pages       === 0);
     },
 
     handleBackButton : function() {
@@ -146,10 +261,6 @@ Ext.define('Ext.ux.touch.grid.feature.Paging', {
             i      = 1,
             data   = [];
 
-        if (!picker) {
-            picker = me.buildPicker();
-        }
-
         var store = picker.down('list').getStore();
 
         store.removeAll();
@@ -161,31 +272,6 @@ Ext.define('Ext.ux.touch.grid.feature.Paging', {
         store.add(data);
 
         picker.showBy(btn);
-    },
-
-    buildPicker : function() {
-        return Ext.create('Ext.Panel', {
-            centered : true,
-            modal    : true,
-            width    : 200,
-            height   : 200,
-            layout   : 'fit',
-            items    : [
-                {
-                    xtype   : 'list',
-                    itemTpl : this.getPageListTpl(),
-                    store   : Ext.create('Ext.data.Store', {
-                        fields : [
-                            'page'
-                        ]
-                    }),
-                    listeners : {
-                        scope   : this,
-                        itemtap : 'handlePageSelect'
-                    }
-                }
-            ]
-        });
     },
 
     handlePageSelect : function(list, index) {
