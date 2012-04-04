@@ -61,15 +61,13 @@ Ext.setup({
                     header    : 'First Name',
                     dataIndex : 'firstName',
                     style     : 'padding-left: 1em;',
-                    width     : '30%',
-                    filter    : { type : 'string' }
+                    width     : '30%'
                 },
                 {
                     header    : 'Last Name',
                     dataIndex : 'lastName',
                     style     : 'padding-left: 1em;',
-                    width     : '30%',
-                    filter    : { type : 'numeric' }
+                    width     : '30%'
                 },
                 {
                     header    : 'Full Name',
