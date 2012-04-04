@@ -53,14 +53,20 @@ Ext.define('Ext.ux.touch.grid.feature.Editable', {
             if (!e.getTarget('input') && !e.getTarget('div.x-clear-icon')) {
                 var field     = editor.field,
                     component = field.getComponent(),
-                    value     = component.getValue();
+                    value     = component.getValue(),
+                    isDirty   = field.isDirty(),
+                    renderTo  = field.getRenderTo();
+
+                if (!value) {
+                    value = editor.record.get(field.getName());
+                }
 
                 field.destroy();
 
-                if (field.isDirty()) {
+                if (isDirty) {
                     editor.record.set(field.getName(), value);
                 } else {
-                    field.getRenderTo().setHtml(editor.htmlValue);
+                    renderTo.setHtml(editor.htmlValue);
                 }
 
                 this.setActiveEditor(null);
