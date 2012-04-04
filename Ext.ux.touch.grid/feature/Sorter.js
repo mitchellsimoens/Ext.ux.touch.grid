@@ -12,6 +12,8 @@ Ext.define('Ext.ux.touch.grid.feature.Sorter', {
             }
         },
 
+        extraCls : 'sorter',
+
         asc  : 'x-grid-sort-asc',
         desc : 'x-grid-sort-desc'
     },

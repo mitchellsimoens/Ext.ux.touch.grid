@@ -6,9 +6,9 @@ Ext.define('Ext.ux.touch.grid.View', {
     mixins   : ['Ext.ux.touch.grid.feature.Feature'],
 
     config : {
-        columns      : [],
-        cls          : 'touchgridpanel',
-        header       : {
+        columns : [],
+        cls     : 'touchgridpanel',
+        header  : {
             xtype  : 'toolbar',
             docked : 'top',
             cls    : 'x-grid-header'
@@ -17,12 +17,7 @@ Ext.define('Ext.ux.touch.grid.View', {
 
     constructor: function(config) {
         var me       = this,
-            columns  = config.columns || me.config.columns || me.columns,
             features = me.features = config.features || me.config.features || me.features;
-
-        Ext.apply(config, {
-            itemTpl : me._buildTpl(columns, false)
-        });
 
         if (typeof me.initFeatures === 'function' && typeof config.features === 'object') {
             me.initFeatures(features, 'constructor');
@@ -41,6 +36,12 @@ Ext.define('Ext.ux.touch.grid.View', {
         if (typeof me.initFeatures === 'function' && typeof me.features === 'object') {
             me.initFeatures(me.features, 'initialize');
         }
+    },
+
+    refreshScroller : function() {
+        var scroller = this.getScrollable().getScroller();
+
+        scroller.refresh();
     },
 
     applyHeader : function(config) {
@@ -85,6 +86,10 @@ Ext.define('Ext.ux.touch.grid.View', {
         return value;
     },
 
+    applyItemTpl : function() {
+        return this._buildTpl(this.getColumns(), false);
+    },
+
     _buildTpl: function(columns, header) {
         var tpl        = [],
             c          = 0,
@@ -95,7 +100,7 @@ Ext.define('Ext.ux.touch.grid.View', {
 
         for (; c < cNum; c++) {
             column        = columns[c];
-            css           = [basePrefix + 'grid-cell'],
+            css           = [basePrefix + 'grid-cell'];
             styles        = [];
             attributes    = ['dataindex="' + column.dataIndex + '"'];
             width         = column.width;

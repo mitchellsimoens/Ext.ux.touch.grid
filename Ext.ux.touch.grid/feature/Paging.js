@@ -12,6 +12,8 @@ Ext.define('Ext.ux.touch.grid.feature.Paging', {
             }
         },
 
+        extraCls : 'paging',
+
         goToButton    : {
             disabled : true,
             text     : 'Go to page...'

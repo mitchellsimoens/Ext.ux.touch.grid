@@ -2,6 +2,14 @@
     border-bottom : 1px solid #000;
 }
 
+.touchgridpanel .x-dataview-container {
+    margin-bottom : 2.5em;
+}
+
+.touchgridpanel.paging .x-dataview-container {
+    margin-bottom : 5em;
+}
+
 .touchgridpanel .x-grid-hd-row {
     background-image : -webkit-gradient(linear, 0% 0%, 0% 100%, color-stop(0%, #9aa7b2), color-stop(2%, #647482), color-stop(100%, #434d57));
 }

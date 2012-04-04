@@ -10,6 +10,8 @@ Ext.define('Ext.ux.touch.grid.feature.Editable', {
             }
         },
 
+        extraCls : 'editable',
+
         activeEditor : null
     },
 
