@@ -52,7 +52,7 @@ Ext.define('Ext.ux.touch.grid.feature.Editable', {
         var editor = this.getActiveEditor();
 
         if (editor) {
-            if (!e.getTarget('input') && !e.getTarget('div.x-clear-icon')) {
+            if (!e.getTarget('.x-field')) {
                 var field     = editor.field,
                     component = field.getComponent(),
                     value     = component.getValue(),
