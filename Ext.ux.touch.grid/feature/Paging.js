@@ -227,6 +227,7 @@ Ext.define('Ext.ux.touch.grid.feature.Paging', {
             store.on('load', 'handleGridPaint', me, { single : true });
             return;
         }
+        store.on('clear', 'handleGridPaint', me, { single : true });
 
         var total         = store.getTotalCount(),
             currentPage   = store.currentPage,
@@ -237,9 +238,9 @@ Ext.define('Ext.ux.touch.grid.feature.Paging', {
 
         me.setPages(pages);
 
-        backButton   .setDisabled(currentPage === 1);
-        forwardButton.setDisabled(currentPage === pages);
-        goToButton   .setDisabled(pages       === 0);
+        backButton   .setDisabled(currentPage === 1 || store.getCount() === 0);
+        forwardButton.setDisabled(currentPage === pages || store.getCount() === 0);
+        goToButton   .setDisabled(pages === 0  || store.getCount() === 0);
     },
 
     handleBackButton : function() {
