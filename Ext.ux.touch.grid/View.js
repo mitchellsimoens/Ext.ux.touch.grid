@@ -65,11 +65,12 @@ Ext.define('Ext.ux.touch.grid.View', {
             cNum     = columns.length,
             retWidth = 0,
             stop     = false,
+            defaults = this.getDefaults() || {},
             column, width;
 
         for (; c < cNum; c++) {
             column = columns[c];
-            width  = column.width;
+            width  = column.width || defaults.column_width;
 
             if (!Ext.isNumber(width)) {
                 stop = true;
@@ -111,6 +112,7 @@ Ext.define('Ext.ux.touch.grid.View', {
             cNum       = columns.length,
             basePrefix = Ext.baseCSSPrefix,
             renderers  = {},
+            defaults = this.getDefaults() || {},
             column, hidden, css, styles, attributes, width, renderer, rendererName, innerText;
 
         for (; c < cNum; c++) {
@@ -124,7 +126,7 @@ Ext.define('Ext.ux.touch.grid.View', {
             css           = [basePrefix + 'grid-cell'];
             styles        = [];
             attributes    = ['dataindex="' + column.dataIndex + '"'];
-            width         = column.width;
+            width         = column.width || defaults.column_width;
             renderer      = column.renderer || this._defaultRenderer;
             rendererName  = column.dataIndex + '_renderer';
 
