@@ -112,7 +112,7 @@ Ext.define('Ext.ux.touch.grid.View', {
             cNum       = columns.length,
             basePrefix = Ext.baseCSSPrefix,
             renderers  = {},
-            defaults = this.getDefaults() || {},
+            defaults   = this.getDefaults() || {},
             column, hidden, css, styles, attributes, width, renderer, rendererName, innerText;
 
         for (; c < cNum; c++) {
