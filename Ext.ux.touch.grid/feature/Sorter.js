@@ -18,6 +18,21 @@ Ext.define('Ext.ux.touch.grid.feature.Sorter', {
         desc : 'x-grid-sort-desc'
     },
 
+    init : function(grid) {
+        var store  = grid.getStore(),
+            sorted = store.isSorted ? store.isSorted() : store.getData().sorted;
+
+        if (sorted) {
+            if (grid.rendered) {
+                grid.fireEvent('sort');
+            } else {
+                grid.on('painted', function() {
+                    grid.fireEvent('sort');
+                }, null, { single : true });
+            }
+        }
+    },
+
     onDestroy: function() {
         var me     = this,
             grid   = me.grid,
@@ -126,7 +141,10 @@ Ext.define('Ext.ux.touch.grid.feature.Sorter', {
                 colEl = column.element = Ext.get(headerEl.down('div.x-grid-cell-hd[dataindex='+dataIndex+']'));
             }
 
-            colEl.removeCls(asc).removeCls(desc);
+            //column is hidden?
+            if (colEl) {
+                colEl.removeCls(asc).removeCls(desc);
+            }
         }
     }
 });
