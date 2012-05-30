@@ -46,7 +46,7 @@ Ext.define('Ext.ux.touch.grid.feature.Feature', {
 
     destroyFeatures: function() {
         var me       = this,
-            features = me._features;
+            features = me._featuresCollection;
 
         features.each(function(feature) {
             if (typeof feature.onDestroy === 'function') {
