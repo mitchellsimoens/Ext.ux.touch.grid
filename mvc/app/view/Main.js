@@ -5,7 +5,7 @@ Ext.define('Grid.view.Main', {
     requires: [
         'Ext.TitleBar',
         'Ext.Video',
-        'Ext.ux.touch.grid.View'
+        'Grid.view.Grid'
     ],
 
     config: {
@@ -49,21 +49,7 @@ Ext.define('Grid.view.Main', {
                 ]
             },
             {
-                xtype   : 'touchgridpanel',
-                title   : 'Grid',
-                store   : 'Grid',
-                columns : [
-                    {
-                        header    : 'Text',
-                        dataIndex : 'text',
-                        width     : '90%'
-                    },
-                    {
-                        header    : 'Amount',
-                        dataIndex : 'amount',
-                        width     : '10%'
-                    }
-                ]
+                xtype : 'grid-grid'
             }
         ]
     }

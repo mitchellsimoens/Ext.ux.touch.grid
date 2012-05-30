@@ -14,8 +14,8 @@ Ext.define('Ext.ux.touch.grid.feature.Feature', {
             fNum = features.length,
             feature, cfg, cls;
 
-        if (!me._features) {
-            me._features = Ext.create('Ext.util.MixedCollection');
+        if (!me._featuresCollection) {
+            me._featuresCollection = Ext.create('Ext.util.MixedCollection');
         }
 
         for (; f < fNum; f++) {
@@ -35,7 +35,7 @@ Ext.define('Ext.ux.touch.grid.feature.Feature', {
             me.addCls(feature.getExtraCls());
 
             if (feature && typeof feature.init === 'function') {
-                me._features.add(feature);
+                me._featuresCollection.add(feature);
 
                 feature.init(me);
 
