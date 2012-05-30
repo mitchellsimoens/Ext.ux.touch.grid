@@ -86,6 +86,8 @@ Ext.define('Ext.ux.touch.grid.feature.Sorter', {
         
         if (store.getRemoteSort() === true) {
             store.load();
+        } else {
+            grid.refresh();
         }
 
         grid.fireEvent('sort');

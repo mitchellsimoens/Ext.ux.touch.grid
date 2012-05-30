@@ -4,12 +4,13 @@ Ext.define('Grid.view.Grid', {
 
     requires : [
         'Ext.ux.touch.grid.feature.Feature',
-        'Ext.ux.touch.grid.feature.Sorter'
+        'Ext.ux.touch.grid.feature.Sorter',
+        'Grid.store.Grid'
     ],
 
     config : {
         title   : 'Grid',
-        store   : 'Grid',
+        store   : true,
         columns : [
             {
                 header    : 'Text',
@@ -28,5 +29,9 @@ Ext.define('Grid.view.Grid', {
                 launchFn : 'initialize'
             }
         ]
+    },
+
+    applyStore : function() {
+        return new Grid.store.Grid();
     }
 });

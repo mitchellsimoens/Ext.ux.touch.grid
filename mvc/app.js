@@ -7,10 +7,6 @@ Ext.application({
         'Ext.MessageBox'
     ],
 
-    stores : [
-        'Grid'
-    ],
-
     views: ['Main'],
 
     icon: {

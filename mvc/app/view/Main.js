@@ -50,6 +50,10 @@ Ext.define('Grid.view.Main', {
             },
             {
                 xtype : 'grid-grid'
+            },
+            {
+                xtype : 'grid-grid',
+                title : 'Grid 2'
             }
         ]
     }
