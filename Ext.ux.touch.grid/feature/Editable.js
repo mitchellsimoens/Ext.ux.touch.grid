@@ -63,6 +63,7 @@ Ext.define('Ext.ux.touch.grid.feature.Editable', {
 
                 if (isDirty) {
                     editor.record.set(field.getName(), value);
+                    grid.refresh();
                 } else {
                     renderTo.setHtml(editor.htmlValue);
                 }
