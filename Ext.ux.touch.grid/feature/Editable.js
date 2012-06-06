@@ -51,6 +51,8 @@ Ext.define('Ext.ux.touch.grid.feature.Editable', {
         });
 
         this.setActiveEditor(editor);
+
+        grid.fireEvent('editstart', grid, this, editor, dataIndex, rec);
     },
 
     onFieldBlur : function (field, e) {
@@ -88,8 +90,12 @@ Ext.define('Ext.ux.touch.grid.feature.Editable', {
         if (isDirty) {
             editor.record.set(field.getName(), value);
             grid.refresh();
+
+            grid.fireEvent('editend', grid, this, editor, value);
         } else {
             renderTo.setHtml(editor.htmlValue);
+
+            grid.fireEvent('editcancel', grid, this, editor, value);
         }
 
         this.setActiveEditor(null);
