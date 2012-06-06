@@ -11,9 +11,9 @@ Ext.define('Grid.view.Grid', {
     ],
 
     config : {
-        title   : 'Grid',
-        store   : true,
-        columns : [
+        title    : 'Grid',
+        store    : true,
+        columns  : [
             {
                 header    : 'Text',
                 dataIndex : 'text',

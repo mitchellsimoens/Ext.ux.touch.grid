@@ -39,6 +39,20 @@ Ext.define('Ext.ux.touch.grid.View', {
         }
     },
 
+    applyColumns : function(columns) {
+        var c          = 0,
+            cLen       = columns.length,
+            newColumns = [];
+
+        for (; c < cLen; c++) {
+            newColumns.push(
+                Ext.merge({}, columns[c])
+            );
+        }
+
+        return newColumns;
+    },
+
     refreshScroller : function() {
         var scroller = this.getScrollable().getScroller();
 
@@ -186,8 +200,7 @@ Ext.define('Ext.ux.touch.grid.View', {
 
     toggleColumn : function(index, hide) {
         var columns = this.getColumns(),
-            column  = columns[index],
-            itemTpl;
+            column  = columns[index];
 
         if (!Ext.isDefined(hide)) {
             hide = !column.hidden;

@@ -116,7 +116,7 @@ Ext.define('Ext.ux.touch.grid.feature.Sorter', {
             colEl     = column.element;
 
             if (!colEl) {
-                colEl = column.element = Ext.get(headerEl.down('div.x-grid-cell-hd[dataindex='+dataIndex+']'));
+                colEl = column.element = Ext.get(headerEl.down('div.x-grid-cell-hd[dataindex=' + dataIndex + ']'));
             }
 
             colEl.addCls(dir === 'DESC' ? desc : asc);
@@ -140,7 +140,7 @@ Ext.define('Ext.ux.touch.grid.feature.Sorter', {
             colEl     = column.element;
 
             if (!colEl) {
-                colEl = column.element = Ext.get(headerEl.down('div.x-grid-cell-hd[dataindex='+dataIndex+']'));
+                colEl = column.element = Ext.get(headerEl.down('div.x-grid-cell-hd[dataindex=' + dataIndex + ']'));
             }
 
             //column is hidden?
