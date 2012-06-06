@@ -45,7 +45,16 @@ Ext.define('Ext.ux.touch.grid.feature.Editable', {
 
         editor.field = Ext.ComponentManager.create(editor);
 
+        editor.field.on({
+            scope  : this,
+            blur   : 'onFieldBlur'
+        });
+
         this.setActiveEditor(editor);
+    },
+
+    onFieldBlur : function (field, e) {
+        this.endEdit();
     },
 
     handleTap : function(grid, index, rowEl, rec, e) {
@@ -53,27 +62,36 @@ Ext.define('Ext.ux.touch.grid.feature.Editable', {
 
         if (editor) {
             if (!e.getTarget('.x-field')) {
-                var field     = editor.field,
-                    component = field.getComponent(),
-                    value     = component.getValue(),
-                    isDirty   = field.isDirty(),
-                    renderTo  = field.getRenderTo();
-
-                field.destroy();
-
-                if (isDirty) {
-                    editor.record.set(field.getName(), value);
-                    grid.refresh();
-                } else {
-                    renderTo.setHtml(editor.htmlValue);
-                }
-
-                this.setActiveEditor(null);
+                this.endEdit(grid);
             }
         }
     },
 
     handleFieldDestroy: function(cellEl, htmlValue) {
         cellEl.setHtml(htmlValue);
+    },
+
+    endEdit : function(grid) {
+        if (!grid) {
+            grid = this.getGrid();
+        }
+
+        var editor    = this.getActiveEditor(),
+            field     = editor.field,
+            component = field.getComponent(),
+            value     = component.getValue(),
+            isDirty   = field.isDirty(),
+            renderTo  = field.getRenderTo();
+
+        field.destroy();
+
+        if (isDirty) {
+            editor.record.set(field.getName(), value);
+            grid.refresh();
+        } else {
+            renderTo.setHtml(editor.htmlValue);
+        }
+
+        this.setActiveEditor(null);
     }
 });
