@@ -1,7 +1,8 @@
 Ext.define('Ext.ux.touch.grid.feature.Abstract', {
     config : {
-        events : {},
-        grid   : null
+        events   : {},
+        extraCls : null,
+        grid     : null
     },
 
     constructor : function(config) {

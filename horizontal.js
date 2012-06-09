@@ -71,7 +71,10 @@ Ext.setup({
 
         Ext.create('Ext.Container', {
             fullscreen : true,
-            scrollable : 'horizontal',
+            scrollable : {
+                direction     : 'horizontal',
+                directionLock : true
+            },
             layout     : {
                 type : 'hbox'
             },

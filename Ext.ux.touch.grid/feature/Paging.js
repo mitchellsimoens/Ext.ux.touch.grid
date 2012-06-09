@@ -30,7 +30,7 @@ Ext.define('Ext.ux.touch.grid.feature.Paging', {
         },
 
         pager         : {
-            docked : 'top'
+            docked : 'bottom'
         },
 
         pageListTpl : 'Page {page}',
