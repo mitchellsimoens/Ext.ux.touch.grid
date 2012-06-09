@@ -90,21 +90,23 @@ Ext.setup({
                 {
                     header    : 'Change',
                     dataIndex : 'change',
-                    cls       : 'centered-cell',
+                    cls       : 'centered-cell redgreen-cell',
                     width     : '15%',
-                    renderer  : function(value, values) {
-                        var color = (value > 0) ? '009933' : 'FF0000';
-                        return '<span style="color: #' + color + ';">' + value + '</span>';
+                    renderer  : function (value) {
+                        var cls = (value > 0) ? 'green' : 'red';
+
+                        return '<span class="' + cls + '">' + value + '</span>';
                     }
                 },
                 {
                     header    : '% Change',
                     dataIndex : 'pct',
-                    cls       : 'centered-cell',
+                    cls       : 'centered-cell redgreen-cell',
                     width     : '15%',
-                    renderer  : function(value, values) {
-                        var color = (value > 0) ? '009933' : 'FF0000';
-                        return '<span style="color: #' + color + ';">' + value + '</span>';
+                    renderer  : function (value) {
+                        var cls = (value > 0) ? 'green' : 'red';
+
+                        return '<span class="' + cls + '">' + value + '</span>';
                     }
                 },
                 {
