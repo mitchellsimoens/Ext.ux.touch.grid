@@ -23,11 +23,11 @@ Ext.define('Ext.ux.touch.grid.View', {
         var me       = this,
             features = me.features = config.features || me.config.features || me.features;
 
+        me.callParent([config]);
+
         if (typeof me.initFeatures === 'function' && typeof config.features === 'object') {
             me.initFeatures(features, 'constructor');
         }
-
-        me.callParent([config]);
 
         me.setWidth(me._buildWidth());
     },
@@ -54,6 +54,10 @@ Ext.define('Ext.ux.touch.grid.View', {
         }
 
         return newColumns;
+    },
+
+    updateColumns : function() {
+        this.setItemTpl(null);
     },
 
     refreshScroller : function() {
@@ -121,6 +125,8 @@ Ext.define('Ext.ux.touch.grid.View', {
             html   = this._buildTpl(this.getColumns(), true);
 
         header.setHtml(html.tpl);
+
+        this.refresh();
     },
 
     _buildTpl: function(columns, header) {
@@ -144,12 +150,12 @@ Ext.define('Ext.ux.touch.grid.View', {
             styles        = [];
             attributes    = ['dataindex="' + column.dataIndex + '"'];
             width         = column.width || defaults.column_width;
-            renderer      = column.renderer || this._defaultRenderer;
+            renderer      = column[header ? 'headerRenderer' : 'renderer'] || this._defaultRenderer;
             rendererName  = column.dataIndex + '_renderer';
 
             if (header) {
                 css.push(basePrefix + 'grid-cell-hd');
-                innerText = column.header;
+                innerText = renderer.call(this, column.header);
             } else {
                 innerText = '{[this.' + rendererName + '(values.' + column.dataIndex + ', values)]}';
 
@@ -157,11 +163,11 @@ Ext.define('Ext.ux.touch.grid.View', {
                     styles.push(column.style);
                 }
 
-                if (column.cls) {
-                    css.push(column.cls);
-                }
-
                 renderers[rendererName] = renderer;
+            }
+
+            if (column.cls) {
+                css.push(column.cls);
             }
 
             if (width) {
@@ -169,10 +175,10 @@ Ext.define('Ext.ux.touch.grid.View', {
             }
 
             if (styles.length > 0) {
-                attributes.push('style ="' + styles.join(' ') + '"');
+                attributes.push('style="' + styles.join(' ') + '"');
             }
 
-            tpl.push('<div class="' + css.join(' ') + '" ' + attributes.join('') + '>' + innerText + '</div>');
+            tpl.push('<div class="' + css.join(' ') + '" ' + attributes.join(' ') + '>' + innerText + '</div>');
         }
 
         tpl = tpl.join('');
