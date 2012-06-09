@@ -32,7 +32,11 @@ Ext.define('Ext.ux.touch.grid.feature.Feature', {
 
             feature = Ext.create(feature, cfg);
 
-            me.addCls(feature.getExtraCls());
+            cls = feature.getExtraCls();
+
+            if (cls) {
+                me.addCls(cls);
+            }
 
             if (feature && typeof feature.init === 'function') {
                 me._featuresCollection.add(feature);
