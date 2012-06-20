@@ -9,6 +9,13 @@ Ext.define('Ext.ux.touch.grid.View', {
     mixins   : ['Ext.ux.touch.grid.feature.Feature'],
 
     config : {
+        /*
+         * @property {String|Function} [rowCls=null]
+         *  Either a string (or a Function that returns a string) designating the class
+         *  string to be applied to row.  Current record values are passed as the first argument.
+         */
+        rowCls : null,
+
         columns : [],
         cls     : 'touchgridpanel',
         header  : {
@@ -16,7 +23,8 @@ Ext.define('Ext.ux.touch.grid.View', {
             docked : 'top',
             cls    : 'x-grid-header'
         },
-        itemTpl : false
+        itemTpl : false,
+        itemCls : 'x-touchgrid-item'
     },
 
     constructor: function(config) {
@@ -57,7 +65,9 @@ Ext.define('Ext.ux.touch.grid.View', {
     },
 
     updateColumns : function() {
-        this.setItemTpl(null);
+        if (this._itemTpl) {
+            this.setItemTpl(null);
+        }
     },
 
     refreshScroller : function() {
@@ -105,7 +115,7 @@ Ext.define('Ext.ux.touch.grid.View', {
     },
 
     _defaultRenderer: function(value) {
-        return value;
+        return Ext.isEmpty(value) ? '&nbsp;' : value;
     },
 
     applyItemTpl : function(tpl) {
@@ -130,12 +140,14 @@ Ext.define('Ext.ux.touch.grid.View', {
     },
 
     _buildTpl: function(columns, header) {
-        var tpl        = [],
+        var me         = this,
+            tpl        = [],
             c          = 0,
             cNum       = columns.length,
             basePrefix = Ext.baseCSSPrefix,
             renderers  = {},
-            defaults   = this.getDefaults() || {},
+            defaults   = me.getDefaults() || {},
+            rowCls     = me.getRowCls(),
             column, hidden, css, styles, attributes, width, renderer, rendererName, innerText;
 
         for (; c < cNum; c++) {
@@ -183,10 +195,26 @@ Ext.define('Ext.ux.touch.grid.View', {
 
         tpl = tpl.join('');
 
+        if (!header && (Ext.isFunction(rowCls) || Ext.isString(rowCls))) {
+            renderers._getRowCls = Ext.bind(me.getRowCls, me);
+            tpl = '<div class="' + basePrefix + 'grid-row {[this._getRowCls(values) || \'\']}">' + tpl + '</div>';
+        }
+
         return {
             tpl       : tpl,
             renderers : renderers
         };
+    },
+
+    getRowCls  : function(data) {
+        var me     = this,
+            rowCls = me._rowCls;
+
+        if (typeof rowCls === 'function') {
+            return rowCls.call(me, data);
+        }
+
+        return rowCls;
     },
 
     getColumn: function(dataIndex) {
