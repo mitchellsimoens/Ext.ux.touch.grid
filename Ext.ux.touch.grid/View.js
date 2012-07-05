@@ -16,7 +16,7 @@ Ext.define('Ext.ux.touch.grid.View', {
          */
         rowCls : null,
 
-        columns : [],
+        columns : [{}],
         cls     : 'touchgridpanel',
         header  : {
             xtype  : 'toolbar',
