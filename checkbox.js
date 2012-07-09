@@ -68,7 +68,7 @@ Ext.setup({
 
             features : [
                 {
-                    ftype    : 'Ext.ux.touch.grid.feature.CheckBoxSelection',
+                    ftype    : 'Ext.ux.touch.grid.feature.CheckboxSelection',
                     launchFn : 'constructor'
                 }
             ],
