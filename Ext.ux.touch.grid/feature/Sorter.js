@@ -86,7 +86,7 @@ Ext.define('Ext.ux.touch.grid.feature.Sorter', {
             store.sort(column.sorters, dir === 'DESC' ? 'ASC' : 'DESC');
         } else {
             store.sort(dataIndex, dir === 'DESC' ? 'ASC' : 'DESC');
-	}
+        }
 
         if (store.getRemoteSort() === true) {
             store.load();
