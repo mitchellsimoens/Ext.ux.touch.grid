@@ -25,6 +25,26 @@ Ext.define('Ext.ux.touch.grid.feature.Editable', {
 
         this.startEdit(grid, cellEl, rec);
     },
+
+    handleTap : function(grid, index, rowEl, rec, e) {
+        var editor = this.getActiveEditor();
+
+        if (editor) {
+            if (!e.getTarget('.x-field')) {
+                this.endEdit(grid);
+            }
+        }
+    },
+    
+    onFieldBlur : function (field, e) {
+        this.endEdit();
+    },
+
+
+    handleFieldDestroy: function(cellEl, htmlValue) {
+        cellEl.setHtml(htmlValue);
+    },
+
     startEdit: function(grid, cellEl, rec) {
         var dataIndex = cellEl.getAttribute('dataindex'),
             column    = grid.getColumn(dataIndex),
@@ -70,24 +90,6 @@ Ext.define('Ext.ux.touch.grid.feature.Editable', {
         }
         
         grid.fireEvent('editstart', grid, this, editor, dataIndex, rec);
-    },
-
-    onFieldBlur : function (field, e) {
-        this.endEdit();
-    },
-
-    handleTap : function(grid, index, rowEl, rec, e) {
-        var editor = this.getActiveEditor();
-
-        if (editor) {
-            if (!e.getTarget('.x-field')) {
-                this.endEdit(grid);
-            }
-        }
-    },
-
-    handleFieldDestroy: function(cellEl, htmlValue) {
-        cellEl.setHtml(htmlValue);
     },
 
     endEdit : function(grid) {
