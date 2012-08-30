@@ -23,6 +23,9 @@ Ext.define('Ext.ux.touch.grid.feature.Editable', {
             return;
         }
 
+        this.startEdit(grid, cellEl, rec);
+    },
+    startEdit: function(grid, cellEl, rec) {
         var dataIndex = cellEl.getAttribute('dataindex'),
             column    = grid.getColumn(dataIndex),
             editor    = column.editor,
@@ -31,6 +34,11 @@ Ext.define('Ext.ux.touch.grid.feature.Editable', {
 
         if (!editor) {
             return;
+        }
+
+        if(this.getActiveEditor()) {
+            // close the currently active editor first
+            this.endEdit(grid);
         }
 
         cellEl.setHtml('');
@@ -55,6 +63,10 @@ Ext.define('Ext.ux.touch.grid.feature.Editable', {
         // focus on the editor field
         if(Ext.isFunction(editor.field.focus)) {
             editor.field.focus();
+        }
+        // if it's a select field open the picker
+        if(Ext.isFunction(editor.field.showPicker)) {
+            editor.field.showPicker();
         }
         
         grid.fireEvent('editstart', grid, this, editor, dataIndex, rec);

@@ -75,6 +75,6 @@ Ext.define('Ext.ux.touch.grid.feature.Feature', {
             }
         }
 
-        return retFeatures
+        return retFeatures;
     }
 });
