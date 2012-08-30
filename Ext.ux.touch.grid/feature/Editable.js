@@ -52,6 +52,11 @@ Ext.define('Ext.ux.touch.grid.feature.Editable', {
 
         this.setActiveEditor(editor);
 
+        // focus on the editor field
+        if(Ext.isFunction(editor.field.focus)) {
+            editor.field.focus();
+        }
+        
         grid.fireEvent('editstart', grid, this, editor, dataIndex, rec);
     },
 
