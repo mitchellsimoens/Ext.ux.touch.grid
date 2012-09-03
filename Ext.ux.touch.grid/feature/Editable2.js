@@ -1,4 +1,8 @@
-Ext.define('Ext.ux.touch.grid.feature.Editable', {
+/*jslint browser: true, vars: true, undef: true, nomen: true, eqeq: false, plusplus: true, bitwise: true, regexp: true, newcap: true, sloppy: true, white: true */
+/*jshint bitwise:true, curly:true, eqeqeq:true, forin:true, immed:true, latedef:true, newcap:true, noarg:true, noempty:true, regexp:true, undef:true, trailing:false */
+/*global Ext, Bancha */
+
+Ext.define('Ext.ux.touch.grid.feature.Editable2', {
     extend   : 'Ext.ux.touch.grid.feature.Abstract',
     requires : 'Ext.ux.touch.grid.feature.Abstract',
 
@@ -16,14 +20,7 @@ Ext.define('Ext.ux.touch.grid.feature.Editable', {
     },
 
     handleDoubleTap : function(grid, index, rowEl, rec, e) {
-        var target = e.getTarget('div.x-grid-cell'),
-            cellEl = Ext.get(target);
-
-        if (!cellEl) {
-            return;
-        }
-
-        this.startEdit(grid, cellEl, rec);
+        this.handleTap(grid, index, rowEl, rec, e); // do the same
     },
 
     handleTap : function(grid, index, rowEl, rec, e) {
@@ -34,8 +31,19 @@ Ext.define('Ext.ux.touch.grid.feature.Editable', {
                 this.endEdit(grid);
             }
         }
+
+
+
+        var target = e.getTarget('div.x-grid-cell'),
+            cellEl = Ext.get(target);
+
+        if (!cellEl) {
+            return;
+        }
+
+        this.startEdit(grid, cellEl, rec);
     },
-    
+
     onFieldBlur : function (field, e) {
         this.endEdit();
     },
@@ -88,23 +96,42 @@ Ext.define('Ext.ux.touch.grid.feature.Editable', {
         if(Ext.isFunction(editor.field.showPicker)) {
             editor.field.showPicker();
         }
-        
+
         grid.fireEvent('editstart', grid, this, editor, dataIndex, rec);
     },
 
-    endEdit : function(grid) {
+    endEdit: function(grid) {
         if (!grid) {
             grid = this.getGrid();
         }
 
         var editor    = this.getActiveEditor(),
             field     = editor.field,
-            component = field.getComponent(),
-            value     = component.getValue(),
+            value     = field.getValue(),
             isDirty   = field.isDirty(),
-            renderTo  = field.getRenderTo();
+            renderTo  = field.getRenderTo(),
+            column    = grid.getColumn(editor.name),
+            index, nextField;
 
-        field.destroy();
+
+        if(!editor) {
+            return; // if there's no active editor, nothing to do here
+        }
+
+
+        // if the editor das a jumpToNext:true config open the next editor
+        // if(column.editNext) {
+        //     //find the next field before the field is dstroyed
+        //     index = grid.getColumns().indexOf(column);
+        //     nextField = Ext.get(editor.renderTo.getParent().query('.x-grid-cell')[index]);
+        // }
+
+        // bug fix workaround, not sure if this is a bug in sencha or in this code
+        try {
+            field.destroy();
+        } catch(e) {
+            // just ignore
+        }
 
         if (isDirty) {
             editor.record.set(field.getName(), value);
@@ -118,5 +145,12 @@ Ext.define('Ext.ux.touch.grid.feature.Editable', {
         }
 
         this.setActiveEditor(null);
+
+        // if(nextField) {
+        //     HOW TO DO THIS?
+        //     this.startEdit(grid, nextField,  editor.record);
+        // }
     }
 });
+
+//eof

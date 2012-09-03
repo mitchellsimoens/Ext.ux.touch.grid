@@ -216,7 +216,7 @@ Ext.define('Ext.ux.touch.grid.feature.Paging', {
     },
 
     handleGridPaint : function(grid) {
-        if (!(grid instanceof Ext.ux.touch.grid.View)) {
+        if (!(grid instanceof (Ext.ux.touch.grid.View || WorkOrder.view.GridView))) {
             grid = this.getGrid();
         }
 
