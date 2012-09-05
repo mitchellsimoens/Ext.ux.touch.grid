@@ -6,7 +6,9 @@ Ext.Loader.setConfig({
 });
 
 Ext.require([
-    'Ext.ux.touch.grid.View',
+    'Ext.plugin.ListPaging',
+    'Ext.plugin.PullRefresh',
+    'Ext.ux.touch.grid.List',
     'Ext.ux.touch.grid.feature.Feature',
     'Ext.ux.touch.grid.feature.Sorter'
 ]);
@@ -42,13 +44,21 @@ Ext.setup({
         var store = Ext.create('Ext.data.Store', {
             autoLoad : true,
             model    : 'TestModel',
-            pageSize : 5
+            pageSize : 5,
+            grouper  : {
+                groupFn : function (record) {
+                    return record.get('company')[0];
+                }
+            }
         });
 
-        Ext.create('Ext.ux.touch.grid.View', {
-            fullscreen : true,
-            store      : store,
-            plugins    : [
+        Ext.create('Ext.ux.touch.grid.List', {
+            fullscreen       : true,
+            store            : store,
+            onItemDisclosure : true,
+            grouped          : true,
+            indexBar         : true,
+            plugins          : [
                 {
                     xclass : 'Ext.plugin.ListPaging'
                 },
@@ -56,13 +66,13 @@ Ext.setup({
                     xclass : 'Ext.plugin.PullRefresh'
                 }
             ],
-            features   : [
+            features         : [
                 {
                     ftype    : 'Ext.ux.touch.grid.feature.Sorter',
                     launchFn : 'initialize'
                 }
             ],
-            columns   : [
+            columns          : [
                 {
                     header    : 'Company',
                     dataIndex : 'company',

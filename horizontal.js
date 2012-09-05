@@ -6,7 +6,7 @@ Ext.Loader.setConfig({
 });
 
 Ext.require([
-    'Ext.ux.touch.grid.View',
+    'Ext.ux.touch.grid.List',
     'Ext.ux.touch.grid.feature.Feature',
     'Ext.ux.touch.grid.feature.Sorter'
 ]);
@@ -79,7 +79,7 @@ Ext.setup({
                 type : 'hbox'
             },
 
-            items      : Ext.create('Ext.ux.touch.grid.View', {
+            items      : Ext.create('Ext.ux.touch.grid.List', {
                 flex     : 1,
                 store    : store,
                 calcWidth : true,

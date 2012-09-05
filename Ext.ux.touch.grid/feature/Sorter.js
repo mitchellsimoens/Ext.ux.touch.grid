@@ -119,7 +119,7 @@ Ext.define('Ext.ux.touch.grid.feature.Sorter', {
                 colEl = column.element = Ext.get(headerEl.down('div.x-grid-cell-hd[dataindex=' + dataIndex + ']'));
             }
 
-            colEl.addCls(dir === 'DESC' ? desc : asc);
+            colEl && colEl.addCls(dir === 'DESC' ? desc : asc);
         }
     },
 

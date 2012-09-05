@@ -5,7 +5,7 @@ Ext.Loader.setConfig({
 });
 
 Ext.require([
-    'Ext.ux.touch.grid.View',
+    'Ext.ux.touch.grid.List',
     'Ext.ux.touch.grid.feature.Feature',
     'Ext.ux.touch.grid.feature.Sorter'
 ]);
@@ -85,7 +85,7 @@ Ext.setup({
             }
         });
 
-        var grid = Ext.create('Ext.ux.touch.grid.View', {
+        var grid = Ext.create('Ext.ux.touch.grid.List', {
             fullscreen : true,
             store      : store,
             features   : [

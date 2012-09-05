@@ -2,7 +2,9 @@ Ext.define('Ext.ux.touch.grid.feature.Paging', {
     extend   : 'Ext.ux.touch.grid.feature.Abstract',
     requires : [
         'Ext.ux.touch.grid.feature.Abstract',
-        'Ext.dataview.List'
+        'Ext.Toolbar',
+        'Ext.Button',
+        'Ext.Panel'
     ],
 
     config : {
@@ -216,7 +218,7 @@ Ext.define('Ext.ux.touch.grid.feature.Paging', {
     },
 
     handleGridPaint : function(grid) {
-        if (!(grid instanceof Ext.ux.touch.grid.View)) {
+        if (!(grid instanceof Ext.ux.touch.grid.List)) {
             grid = this.getGrid();
         }
 
