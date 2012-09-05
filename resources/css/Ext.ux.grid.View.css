@@ -1,4 +1,5 @@
-.touchgridpanel.x-list .x-list-item .x-list-item-label {
+.touchgridpanel.x-list .x-list-item .x-list-item-label,
+.touchgridpanel .x-list-item-body {
     padding: 0;
 }
 
