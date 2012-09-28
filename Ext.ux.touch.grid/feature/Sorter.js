@@ -67,7 +67,7 @@ Ext.define('Ext.ux.touch.grid.feature.Sorter', {
             dataIndex = el.getAttribute('dataindex'),
             sorters   = store.getSorters(),
             sorter    = sorters[0],
-            dir       = sorter ? sorter.getDirection() : 'ASC',
+            dir       = (sorter && (sorter.getProperty() === dataIndex)) ? sorter.getDirection() : 'DESC',
             column;
 
         for (; c < cNum; c++) {
