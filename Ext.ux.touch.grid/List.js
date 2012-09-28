@@ -16,6 +16,13 @@ Ext.define('Ext.ux.touch.grid.List', {
          */
         rowCls : null,
 
+        /*
+         * @property {String|Function} [rowStyle=null]
+         *  Either a string (or a Function that returns a string) designating the style
+         *  to be applied to each row. Current record values are passed as the first argument.
+         */
+        rowStyle : null,
+
         columns : [
             {}
         ],
@@ -150,6 +157,7 @@ Ext.define('Ext.ux.touch.grid.List', {
             renderers = {},
             defaults = me.getDefaults() || {},
             rowCls = me.getRowCls(),
+            rowStyle = me.getRowStyle(),
             column, hidden, css, styles, attributes, width, renderer, rendererName, innerText;
 
         for (; c < cNum; c++) {
@@ -196,10 +204,24 @@ Ext.define('Ext.ux.touch.grid.List', {
         }
 
         tpl = tpl.join('');
-
-        if (!header && (Ext.isFunction(rowCls) || Ext.isString(rowCls))) {
-            renderers._getRowCls = Ext.bind(me.getRowCls, me);
-            tpl = '<div class="' + basePrefix + 'grid-row {[this._getRowCls(values) || \'\']}">' + tpl + '</div>';
+        
+        if (!header) {
+            var rcls = null,
+        		rstl = null;
+        	
+        	if (Ext.isFunction(rowCls) || Ext.isString(rowCls)) {
+            	renderers._getRowCls = Ext.bind(me.getRowCls, me);
+            	rcls = 'class="' + basePrefix + 'grid-row {[this._getRowCls(values) || \'\']}"';
+        	}
+        
+        	if (Ext.isFunction(rowStyle) || Ext.isString(rowStyle)) {
+            	renderers._getRowStyle = Ext.bind(me.getRowStyle, me);
+            	rstl = 'style="{[this._getRowStyle(values) || \'\']}"';
+        	}
+        
+        	if (rcls || rstl) {
+        		tpl = '<div' + (rcls ? ' ' + rcls : '') + (rstl ? ' ' + rstl : '') + '>' + tpl + '</div>';
+        	}
         }
 
         return {
@@ -217,6 +239,17 @@ Ext.define('Ext.ux.touch.grid.List', {
         }
 
         return rowCls;
+    },
+
+    getRowStyle : function (data) {
+        var me = this,
+            rowStyle = me._rowStyle;
+
+        if (typeof rowStyle === 'function') {
+            return rowStyle.call(me, data);
+        }
+
+        return rowStyle;
     },
 
     getColumn : function (dataIndex) {
