@@ -256,18 +256,17 @@ Ext.define('Ext.ux.touch.grid.List', {
         var me = this,
             columns = me.getColumns(),
             c = 0,
-            cNum = columns.length,
-            column;
+            cNum = columns.length;
 
         for (; c < cNum; c++) {
-            column = columns[c];
+            var column = columns[c];
 
             if (column.dataIndex === dataIndex) {
-                break;
+                return column;
             }
         }
 
-        return column;
+        return null;
     },
 
     toggleColumn : function (index, hide) {
