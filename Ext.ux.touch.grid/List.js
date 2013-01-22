@@ -36,9 +36,17 @@ Ext.define('Ext.ux.touch.grid.List', {
         itemCls : 'x-touchgrid-item'
     },
 
+    
+    _getRowClsFn : null,
+    _getRowStyleFn : null,
+    
+    
     constructor : function (config) {
         var me = this,
             features = me.features = config.features || me.config.features || me.features;
+        
+        me._getRowClsFn = Ext.bind(me.getRowCls, me);
+        me._getRowStyleFn = Ext.bind(me.getRowStyle, me);
 
         me.callParent([config]);
 
@@ -210,12 +218,12 @@ Ext.define('Ext.ux.touch.grid.List', {
                 rstl = null;
             
             if (Ext.isFunction(rowCls) || Ext.isString(rowCls)) {
-                renderers._getRowCls = Ext.bind(me.getRowCls, me);
+                renderers._getRowCls = me._getRowClsFn;
                 rcls = 'class="' + basePrefix + 'grid-row {[this._getRowCls(values) || \'\']}"';
             }
         
             if (Ext.isFunction(rowStyle) || Ext.isString(rowStyle)) {
-                renderers._getRowStyle = Ext.bind(me.getRowStyle, me);
+                renderers._getRowStyle = me._getRowStyleFn;
                 rstl = 'style="{[this._getRowStyle(values) || \'\']}"';
             }
         
