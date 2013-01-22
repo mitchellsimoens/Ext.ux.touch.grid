@@ -207,21 +207,21 @@ Ext.define('Ext.ux.touch.grid.List', {
         
         if (!header) {
             var rcls = null,
-        		rstl = null;
-        	
-        	if (Ext.isFunction(rowCls) || Ext.isString(rowCls)) {
-            	renderers._getRowCls = Ext.bind(me.getRowCls, me);
-            	rcls = 'class="' + basePrefix + 'grid-row {[this._getRowCls(values) || \'\']}"';
-        	}
+                rstl = null;
+            
+            if (Ext.isFunction(rowCls) || Ext.isString(rowCls)) {
+                renderers._getRowCls = Ext.bind(me.getRowCls, me);
+                rcls = 'class="' + basePrefix + 'grid-row {[this._getRowCls(values) || \'\']}"';
+            }
         
-        	if (Ext.isFunction(rowStyle) || Ext.isString(rowStyle)) {
-            	renderers._getRowStyle = Ext.bind(me.getRowStyle, me);
-            	rstl = 'style="{[this._getRowStyle(values) || \'\']}"';
-        	}
+            if (Ext.isFunction(rowStyle) || Ext.isString(rowStyle)) {
+                renderers._getRowStyle = Ext.bind(me.getRowStyle, me);
+                rstl = 'style="{[this._getRowStyle(values) || \'\']}"';
+            }
         
-        	if (rcls || rstl) {
-        		tpl = '<div' + (rcls ? ' ' + rcls : '') + (rstl ? ' ' + rstl : '') + '>' + tpl + '</div>';
-        	}
+            if (rcls || rstl) {
+                tpl = '<div' + (rcls ? ' ' + rcls : '') + (rstl ? ' ' + rstl : '') + '>' + tpl + '</div>';
+            }
         }
 
         return {
@@ -256,10 +256,11 @@ Ext.define('Ext.ux.touch.grid.List', {
         var me = this,
             columns = me.getColumns(),
             c = 0,
-            cNum = columns.length;
+            cNum = columns.length,
+            column;
 
         for (; c < cNum; c++) {
-            var column = columns[c];
+            column = columns[c];
 
             if (column.dataIndex === dataIndex) {
                 return column;
