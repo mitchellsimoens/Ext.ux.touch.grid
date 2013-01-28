@@ -147,15 +147,33 @@ Ext.define('Ext.ux.touch.grid.List', {
         return tpl;
     },
 
+    _updateItemTpl: function(newTpl) {
+        var listItems = this.listItems,
+            ln = listItems.length || 0,
+            store = this.getStore(),
+            i, listItem;
+
+        for (i = 0; i < ln; i++) {
+            listItem = listItems[i];
+            listItem.setTpl(newTpl);
+        }
+
+        if (store && store.getCount()) {
+            this.doRefresh();
+        }
+    },
+
     updateItemTpl : function () {
+        this._updateItemTpl(this.getItemTpl());
+
         var header = this.getHeader(),
             html = this._buildTpl(this.getColumns(), true);
-
+        
         header.setHtml(html.tpl);
 
         this.refresh();
     },
-
+    
     _buildTpl : function (columns, header) {
         var me = this,
             tpl = [],
