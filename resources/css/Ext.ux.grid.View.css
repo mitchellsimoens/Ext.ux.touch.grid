@@ -13,8 +13,6 @@
     text-overflow  : ellipsis;
 	white-space    : nowrap;
 	vertical-align : middle;
-    min-height     : 2.6em;
-	line-height    : 2em;
 	font-size      : 1em;
 	font-weight    : bold;
     border-left    : 1px solid #ccc;
