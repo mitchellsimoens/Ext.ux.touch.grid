@@ -167,6 +167,8 @@ Ext.define('Ext.ux.touch.grid.List', {
             renderer = column[header ? 'headerRenderer' : 'renderer'] || this._defaultRenderer;
             rendererName = column.dataIndex + '_renderer';
 
+            styles.push('line-height: '+this.getItemHeight()+'px;');
+
             if (header) {
                 css.push(basePrefix + 'grid-cell-hd');
                 innerText = renderer.call(this, column.header);
