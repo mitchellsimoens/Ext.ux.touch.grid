@@ -1,1 +1,0 @@
-{"id":"6c133875-ad09-4599-9cc8-6d83ce11b275","js":[{"path":"touch/sencha-touch.js","type":"js"},{"path":"app.js","bundle":true,"update":"delta","type":"js"}],"css":[{"path":"resources/css/app.css","update":"delta","type":"css"},{"path":"resources/css/Ext.ux.grid.View.css","update":"delta","type":"css"}]}
