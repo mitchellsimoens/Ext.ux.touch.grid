@@ -1,8 +1,8 @@
 //<debug>
 Ext.Loader.setPath({
-    'Ext':                  'touch/src',
-    'mvc-2.1':              'app',
-    'Ext.ux.touch.grid':    '../Ext.ux.touch.grid'
+    'Ext':          'touch/src',
+    'mvc-2.1':      'app',
+    'Ext.ux.touch': 'jslib/ux/touch'
 });
 //</debug>
 
@@ -10,7 +10,7 @@ Ext.application({
     name: 'mvc-2.1',
 
     requires: [
-        'Ext.MessageBox'
+        'Ext.MessageBox','Ext.ux.touch.grid.List'
     ],
     
     models: [

@@ -17,7 +17,7 @@ Ext.define('mvc-2.1.view.Main', {
                 items : [{
                     docked: 'top',
                     xtype: 'titlebar',
-                    title: 'Ext.ux.touch.grid Example'
+                    title: 'Ext.ux.touch.grid MVC Example with Sencha Touch 2.1'
                 },{
                     xtype : 'gridview'
                 }]
