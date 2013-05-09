@@ -16,7 +16,7 @@ Ext.setup({
         var body  = Ext.getBody(),
             width = body.getWidth();
 
-        if (width >= 1600) {
+        if (width > 1600) {
             console.warn('This demo is best viewed with a screen size less than 1600 pixels.');
         }
 
@@ -78,19 +78,16 @@ Ext.setup({
             layout     : {
                 type : 'hbox'
             },
-
             items      : Ext.create('Ext.ux.touch.grid.List', {
-                flex     : 1,
-                store    : store,
+                store     : store,
                 calcWidth : true,
-
-                features : [
+                features  : [
                     {
                         ftype    : 'Ext.ux.touch.grid.feature.Sorter',
                         launchFn : 'initialize'
                     }
                 ],
-                columns : [
+                columns  : [
                     {
                         header    : 'Company',
                         dataIndex : 'company',
