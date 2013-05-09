@@ -16,7 +16,8 @@ Ext.define('Ext.ux.touch.grid.feature.Editable', {
     },
 
     handleDoubleTap : function(grid, index, rowEl, rec, e) {
-        var target = e.getTarget('div.x-grid-cell'),
+        var me     = this,
+            target = e.getTarget('div.x-grid-cell'),
             cellEl = Ext.get(target);
 
         if (!cellEl) {
@@ -46,16 +47,16 @@ Ext.define('Ext.ux.touch.grid.feature.Editable', {
         editor.field = Ext.ComponentManager.create(editor);
 
         editor.field.on({
-            scope  : this,
+            scope  : me,
             blur   : 'onFieldBlur'
         });
 
-        this.setActiveEditor(editor);
+        me.setActiveEditor(editor);
 
-        grid.fireEvent('editstart', grid, this, editor, dataIndex, rec);
+        grid.fireEvent('editstart', grid, me, editor, dataIndex, rec);
     },
 
-    onFieldBlur : function (field, e) {
+    onFieldBlur : function () {
         this.endEdit();
     },
 
@@ -74,11 +75,13 @@ Ext.define('Ext.ux.touch.grid.feature.Editable', {
     },
 
     endEdit : function(grid) {
+        var me = this;
+
         if (!grid) {
-            grid = this.getGrid();
+            grid = me.getGrid();
         }
 
-        var editor    = this.getActiveEditor(),
+        var editor    = me.getActiveEditor(),
             field     = editor.field,
             component = field.getComponent(),
             value     = component.getValue(),
@@ -91,13 +94,13 @@ Ext.define('Ext.ux.touch.grid.feature.Editable', {
             editor.record.set(field.getName(), value);
             grid.refresh();
 
-            grid.fireEvent('editend', grid, this, editor, value);
+            grid.fireEvent('editend', grid, me, editor, value);
         } else {
             renderTo.setHtml(editor.htmlValue);
 
-            grid.fireEvent('editcancel', grid, this, editor, value);
+            grid.fireEvent('editcancel', grid, me, editor, value);
         }
 
-        this.setActiveEditor(null);
+        me.setActiveEditor(null);
     }
 });

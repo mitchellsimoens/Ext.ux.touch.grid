@@ -98,7 +98,6 @@ Ext.define('Ext.ux.touch.grid.feature.Paging', {
 
     applyBackButton : function(config, oldButton) {
         Ext.apply(config, {
-            action   : 'back',
             disabled : true,
             scope    : this,
             handler  : 'handleBackButton'
@@ -109,7 +108,6 @@ Ext.define('Ext.ux.touch.grid.feature.Paging', {
 
     applyGoToButton : function(config, oldButton) {
         Ext.apply(config, {
-            action   : 'goTo',
             disabled : true,
             scope    : this,
             handler  : 'handleGoToButton'
@@ -120,7 +118,6 @@ Ext.define('Ext.ux.touch.grid.feature.Paging', {
 
     applyForwardButton : function(config, oldButton) {
         Ext.apply(config, {
-            action   : 'forward',
             disabled : true,
             scope    : this,
             handler  : 'handleForwardButton'
@@ -264,14 +261,15 @@ Ext.define('Ext.ux.touch.grid.feature.Paging', {
             picker = me.getGoToPicker(),
             pages  = me.getPages(),
             i      = 1,
-            data   = [];
-
-        var store = picker.down('list').getStore();
+            data   = [],
+            store  = picker.down('list').getStore();
 
         store.removeAll();
 
         for (; i <= pages; i++) {
-            data.push({ page : i });
+            data.push({
+                page : i
+            });
         }
 
         store.add(data);

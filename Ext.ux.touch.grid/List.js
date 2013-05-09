@@ -42,10 +42,10 @@ Ext.define('Ext.ux.touch.grid.List', {
     
     
     constructor : function (config) {
-        var me = this,
+        var me       = this,
             features = me.features = config.features || me.config.features || me.features;
         
-        me._getRowClsFn = Ext.bind(me.getRowCls, me);
+        me._getRowClsFn   = Ext.bind(me.getRowCls,   me);
         me._getRowStyleFn = Ext.bind(me.getRowStyle, me);
 
         me.callParent([config]);
@@ -68,8 +68,8 @@ Ext.define('Ext.ux.touch.grid.List', {
     },
 
     applyColumns : function (columns) {
-        var c = 0,
-            cLen = columns.length,
+        var c          = 0,
+            cLen       = columns.length,
             newColumns = [];
 
         for (; c < cLen; c++) {
@@ -99,7 +99,7 @@ Ext.define('Ext.ux.touch.grid.List', {
             cls    : 'x-grid-header'
         });
 
-        return Ext.factory(config, Ext.Toolbar);
+        return Ext.factory(config, Ext.Toolbar, this.getHeader());
     },
 
     updateHeader : function (header) {
@@ -107,18 +107,18 @@ Ext.define('Ext.ux.touch.grid.List', {
     },
 
     _buildWidth : function () {
-        var me = this,
-            columns = me.getColumns(),
-            c = 0,
-            cNum = columns.length,
+        var me       = this,
+            columns  = me.getColumns(),
+            c        = 0,
+            cNum     = columns.length,
             retWidth = 0,
-            stop = false,
+            stop     = false,
             defaults = this.getDefaults() || {},
             column, width;
 
         for (; c < cNum; c++) {
             column = columns[c];
-            width = column.width || defaults.column_width;
+            width  = column.width || defaults.column_width;
 
             if (!Ext.isNumber(width)) {
                 stop = true;
@@ -149,12 +149,13 @@ Ext.define('Ext.ux.touch.grid.List', {
 
     _updateItemTpl: function(newTpl) {
         var listItems = this.listItems || [],
-            ln = listItems.length || 0,
-            store = this.getStore(),
+            ln        = listItems.length || 0,
+            store     = this.getStore(),
             i, listItem;
 
         for (i = 0; i < ln; i++) {
             listItem = listItems[i];
+
             listItem.setTpl(newTpl);
         }
 
@@ -164,27 +165,32 @@ Ext.define('Ext.ux.touch.grid.List', {
     },
 
     updateItemTpl : function () {
-        this._updateItemTpl(this.getItemTpl());
+        var me = this,
+            header, html;
 
-        var header = this.getHeader(),
-            html = this._buildTpl(this.getColumns(), true);
+        me._updateItemTpl(me.getItemTpl());
+
+        header = me.getHeader();
+        html   = me._buildTpl(me.getColumns(), true);
         
         header.setHtml(html.tpl);
 
-        this.refresh();
+        me.refresh();
     },
     
     _buildTpl : function (columns, header) {
-        var me = this,
-            tpl = [],
-            c = 0,
-            cNum = columns.length,
+        var me         = this,
+            tpl        = [],
+            c          = 0,
+            cNum       = columns.length,
             basePrefix = Ext.baseCSSPrefix,
-            renderers = {},
-            defaults = me.getDefaults() || {},
-            rowCls = me.getRowCls(),
-            rowStyle = me.getRowStyle(),
-            itemHeight = this.getItemHeight ? this.getItemHeight() : false,
+            renderers  = {},
+            defaults   = me.getDefaults() || {},
+            rowCls     = me.getRowCls(),
+            rowStyle   = me.getRowStyle(),
+            itemHeight = me.getItemHeight ? me.getItemHeight() : false,
+            rcls       = null,
+            rstl       = null,
             column, hidden, css, styles, attributes, width, renderer, rendererName, innerText;
 
         for (; c < cNum; c++) {
@@ -195,11 +201,11 @@ Ext.define('Ext.ux.touch.grid.List', {
                 continue;
             }
 
-            css = [basePrefix + 'grid-cell'];
-            styles = [];
-            attributes = ['dataindex="' + column.dataIndex + '"'];
-            width = column.width || defaults.column_width;
-            renderer = column[header ? 'headerRenderer' : 'renderer'] || this._defaultRenderer;
+            css          = [basePrefix + 'grid-cell'];
+            styles       = [];
+            attributes   = ['dataindex="' + column.dataIndex + '"'];
+            width        = column.width || defaults.column_width;
+            renderer     = column[header ? 'headerRenderer' : 'renderer'] || this._defaultRenderer;
             rendererName = column.dataIndex + '_renderer';
 
             if (itemHeight) {
@@ -208,7 +214,7 @@ Ext.define('Ext.ux.touch.grid.List', {
 
             if (header) {
                 css.push(basePrefix + 'grid-cell-hd');
-                innerText = renderer.call(this, column.header);
+                innerText = renderer.call(me, column.header);
             } else {
                 innerText = '{[this.' + rendererName + '(values.' + column.dataIndex + ', values)]}';
 
@@ -237,17 +243,14 @@ Ext.define('Ext.ux.touch.grid.List', {
         tpl = tpl.join('');
         
         if (!header) {
-            var rcls = null,
-                rstl = null;
-            
             if (Ext.isFunction(rowCls) || Ext.isString(rowCls)) {
                 renderers._getRowCls = me._getRowClsFn;
-                rcls = 'class="' + basePrefix + 'grid-row {[this._getRowCls(values) || \'\']}"';
+                rcls                 = 'class="' + basePrefix + 'grid-row {[this._getRowCls(values) || \'\']}"';
             }
         
             if (Ext.isFunction(rowStyle) || Ext.isString(rowStyle)) {
                 renderers._getRowStyle = me._getRowStyleFn;
-                rstl = 'style="{[this._getRowStyle(values) || \'\']}"';
+                rstl                   = 'style="{[this._getRowStyle(values) || \'\']}"';
             }
         
             if (rcls || rstl) {
@@ -262,7 +265,7 @@ Ext.define('Ext.ux.touch.grid.List', {
     },
 
     getRowCls : function (data) {
-        var me = this,
+        var me     = this,
             rowCls = me._rowCls;
 
         if (typeof rowCls === 'function') {
@@ -273,7 +276,7 @@ Ext.define('Ext.ux.touch.grid.List', {
     },
 
     getRowStyle : function (data) {
-        var me = this,
+        var me       = this,
             rowStyle = me._rowStyle;
 
         if (typeof rowStyle === 'function') {
@@ -284,10 +287,10 @@ Ext.define('Ext.ux.touch.grid.List', {
     },
 
     getColumn : function (dataIndex) {
-        var me = this,
+        var me      = this,
             columns = me.getColumns(),
-            c = 0,
-            cNum = columns.length,
+            c       = 0,
+            cNum    = columns.length,
             column;
 
         for (; c < cNum; c++) {
@@ -302,8 +305,9 @@ Ext.define('Ext.ux.touch.grid.List', {
     },
 
     toggleColumn : function (index, hide) {
-        var columns = this.getColumns(),
-            column = columns[index];
+        var me      = this,
+            columns = me.getColumns(),
+            column  = columns[index];
 
         if (!Ext.isDefined(hide)) {
             hide = !column.hidden;
@@ -311,8 +315,8 @@ Ext.define('Ext.ux.touch.grid.List', {
 
         column.hidden = hide;
 
-        this.setItemTpl(null); //trigger new tpl on items and header
-        this.refresh();
+        me.setItemTpl(null); //trigger new tpl on items and header
+        me.refresh();
     },
 
     hideColumn : function (index) {

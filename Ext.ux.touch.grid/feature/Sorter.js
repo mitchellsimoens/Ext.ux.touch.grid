@@ -102,8 +102,8 @@ Ext.define('Ext.ux.touch.grid.feature.Sorter', {
             headerEl = header.element,
             s        = 0,
             sNum     = sorters.length,
-            asc      = this.getAsc(),
-            desc     = this.getDesc(),
+            asc      = me.getAsc(),
+            desc     = me.getDesc(),
             column, dataIndex, colEl, sorter, dir;
 
         me.clearSort();
@@ -129,14 +129,15 @@ Ext.define('Ext.ux.touch.grid.feature.Sorter', {
     },
 
     clearSort : function() {
-        var grid     = this.getGrid(),
+        var me       = this,
+            grid     = me.getGrid(),
             columns  = grid.getColumns(),
             header   = grid.getHeader(),
             headerEl = header.element,
             c        = 0,
             cNum     = columns.length,
-            asc      = this.getAsc(),
-            desc     = this.getDesc(),
+            asc      = me.getAsc(),
+            desc     = me.getDesc(),
             column, dataIndex, colEl;
 
         for (; c < cNum; c++) {

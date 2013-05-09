@@ -20,13 +20,13 @@ Ext.define('Ext.ux.touch.grid.feature.CheckboxSelection', {
 
         columns = [
             {
-                width     : 100,
-                cls       : cellCls,
-                dataIndex : 'checkbox_selection',
-                headerRenderer : function() {
+                width          : 100,
+                cls            : cellCls,
+                dataIndex      : 'checkbox_selection',
+                headerRenderer : function () {
                     return '<div class="' + cls + '">&nbsp;</div>';
                 },
-                renderer  : function() {
+                renderer       : function () {
                     return '<div class="' + cls + '">&nbsp;</div>';
                 }
             }
@@ -37,12 +37,13 @@ Ext.define('Ext.ux.touch.grid.feature.CheckboxSelection', {
     },
 
     onHeaderTap : function(e) {
-        var grid       = this.getGrid(),
-            cls        = this.getCheckboxCellCls(),
+        var me         = this,
+            grid       = me.getGrid(),
+            cls        = me.getCheckboxCellCls(),
             isCheckbox = !!e.getTarget('.' + cls);
 
         if (isCheckbox) {
-            if (this.isAllSelected(grid)) {
+            if (me.isAllSelected(grid)) {
                 grid.deselectAll();
             } else {
                 grid.selectAll();
