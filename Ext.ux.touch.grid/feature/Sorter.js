@@ -113,6 +113,11 @@ Ext.define('Ext.ux.touch.grid.feature.Sorter', {
             dataIndex = sorter.getProperty();
             dir       = sorter.getDirection();
             column    = grid.getColumn(dataIndex);
+
+            if (!column) {
+                continue;
+            }
+
             colEl     = column.element;
 
             if (!colEl) {

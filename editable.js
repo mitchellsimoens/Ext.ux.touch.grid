@@ -9,7 +9,8 @@ Ext.require([
     'Ext.ux.touch.grid.List',
     'Ext.ux.touch.grid.feature.Feature',
     'Ext.ux.touch.grid.feature.Editable',
-    'Ext.ux.touch.grid.feature.Sorter'
+    'Ext.ux.touch.grid.feature.Sorter',
+    'Ext.field.Text'
 ]);
 
 Ext.setup({

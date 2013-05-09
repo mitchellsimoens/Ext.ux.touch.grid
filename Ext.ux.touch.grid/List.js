@@ -148,7 +148,7 @@ Ext.define('Ext.ux.touch.grid.List', {
     },
 
     _updateItemTpl: function(newTpl) {
-        var listItems = this.listItems,
+        var listItems = this.listItems || [],
             ln = listItems.length || 0,
             store = this.getStore(),
             i, listItem;
@@ -184,6 +184,7 @@ Ext.define('Ext.ux.touch.grid.List', {
             defaults = me.getDefaults() || {},
             rowCls = me.getRowCls(),
             rowStyle = me.getRowStyle(),
+            itemHeight = this.getItemHeight ? this.getItemHeight() : false,
             column, hidden, css, styles, attributes, width, renderer, rendererName, innerText;
 
         for (; c < cNum; c++) {
@@ -201,7 +202,9 @@ Ext.define('Ext.ux.touch.grid.List', {
             renderer = column[header ? 'headerRenderer' : 'renderer'] || this._defaultRenderer;
             rendererName = column.dataIndex + '_renderer';
 
-            styles.push('line-height: '+this.getItemHeight()+'px;');
+            if (itemHeight) {
+                styles.push('line-height: ' + itemHeight + 'px;');
+            }
 
             if (header) {
                 css.push(basePrefix + 'grid-cell-hd');

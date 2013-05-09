@@ -1,5 +1,5 @@
 Ext.define('Grid.view.Grid', {
-    extend : 'Ext.ux.touch.grid.View',
+    extend : 'Ext.ux.touch.grid.List',
     xtype  : 'grid-grid',
 
     requires : [

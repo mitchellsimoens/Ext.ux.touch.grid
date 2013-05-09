@@ -22,18 +22,26 @@
      * List of all JavaScript assets in the right execution order.
      * Each item is an object with the following format:
      *      {
-     *          "path": "path/to/script.js" // Relative path to this app.json file
+     *          "path": "path/to/script.js" // Path to file, if local file it must be relative to this app.json file
+     *          "remote": true              // (Optional)
+     *                                      // - Defaults to undefined (falsey) to signal a local file which will be copied
+     *                                      // - Specify true if this file is a remote file which will not to be copied
      *          "update": "delta"           // (Optional)
      *                                      //  - If not specified, this file will only be loaded once, and
      *                                      //    cached inside localStorage until this value is changed.
      *                                      //  - "delta" to enable over-the-air delta update for this file
      *                                      //  - "full" means full update will be made when this file changes
+     *          "x-bootstrap": true         // (Optional)
+     *                                      // Indicates a development mode only dependency.  
+     *                                      // These files will not be copied into the build directory or referenced
+     *                                      // in the generate app.json manifest for the micro loader.
      *
      *      }
      */
     "js": [
         {
-            "path": "sdk/sencha-touch.js"
+            "path": "touch/sencha-touch.js",
+            "x-bootstrap": true
         },
         {
             "path": "app.js",
@@ -46,7 +54,10 @@
      * List of all CSS assets in the right inclusion order.
      * Each item is an object with the following format:
      *      {
-     *          "path": "path/to/item.css" // Relative path to this app.json file
+     *          "path": "path/to/item.css" // Path to file, if local file it must be relative to this app.json file
+     *          "remote": true             // (Optional)
+     *                                     // - Defaults to undefined (falsey) to signal a local file which will be copied
+     *                                     // - Specify true if this file is a remote file which will not to be copied
      *          "update": "delta"          // (Optional)
      *                                     //  - If not specified, this file will only be loaded once, and
      *                                     //    cached inside localStorage until this value is changed to either one below
@@ -107,28 +118,8 @@
     "archivePath": "archive",
 
     /**
-     * Default paths to build this application to for each environment
-     */
-    "buildPaths": {
-        "testing": "build/testing",
-        "production": "build/production",
-        "package": "build/package",
-        "native": "build/native"
-    },
-
-    /**
-     * Build options
-     */
-    "buildOptions": {
-        "product": "touch",
-        "minVersion": 3,
-        "debug": false,
-        "logger": "no"
-    },
-
-    /**
      * Uniquely generated id for this application, used as prefix for localStorage keys.
      * Normally you should never change this value.
      */
-    "id": "e931e7a0-961f-11e1-93af-3fbcd389affb"
+    "id": "1817c898-7eb6-4b85-ad45-54bf0ff478db"
 }

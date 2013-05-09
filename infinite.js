@@ -75,6 +75,7 @@ Ext.setup({
         Ext.create('Ext.ux.touch.grid.List', {
             fullscreen : true,
             store      : store,
+            infinite   : true,
             columns    : [
                 {
                     header    : 'Title',
