@@ -118,6 +118,8 @@ Ext.define('Ext.ux.touch.grid.List', {
 
         for (; c < cNum; c++) {
             column = columns[c];
+            if (column.hidden)
+                continue;
             width  = column.width || defaults.column_width;
 
             if (!Ext.isNumber(width)) {
@@ -315,6 +317,7 @@ Ext.define('Ext.ux.touch.grid.List', {
 
         column.hidden = hide;
 
+        me.setWidth(me._buildWidth());
         me.setItemTpl(null); //trigger new tpl on items and header
         me.refresh();
     },
