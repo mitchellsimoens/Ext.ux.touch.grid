@@ -118,6 +118,8 @@ Ext.define('Ext.ux.touch.grid.List', {
 
         for (; c < cNum; c++) {
             column = columns[c];
+            if (column.hidden)
+                continue;
             width  = column.width || defaults.column_width;
 
             if (!Ext.isNumber(width)) {
