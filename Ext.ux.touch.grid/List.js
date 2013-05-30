@@ -317,6 +317,7 @@ Ext.define('Ext.ux.touch.grid.List', {
 
         column.hidden = hide;
 
+        me.setWidth(me._buildWidth());
         me.setItemTpl(null); //trigger new tpl on items and header
         me.refresh();
     },
